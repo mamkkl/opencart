@@ -1,0 +1,4 @@
+<?php
+// Text
+$_['text_footer'] 	= '<a href="https://shop.myopencart.hk" target="_blank" style="color:red;">香港人嘅Opencart網店</a> &copy; 2009-' . date('Y') . ' All Rights Reserved';
+$_['text_version'] 	= '版本 %s';
