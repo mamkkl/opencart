@@ -34,7 +34,7 @@ class ControllerUpgradeUpgrade extends Controller {
 	
 	public function next() {
 		$this->load->language('upgrade/upgrade');
-				
+
 		$json = array();
 
 		if (isset($this->request->get['step'])) {
@@ -49,21 +49,43 @@ class ControllerUpgradeUpgrade extends Controller {
 			// Get the upgrade file
 			try {
 				$this->load->model('upgrade/' . basename($files[$step - 1], '.php'));
-				
+
 				// All upgrade methods require a upgrade method
-				$this->{'model_upgrade_' . str_replace('.', '', basename($files[$step - 1], '.php'))}->upgrade();
-			
+				if (basename($files[$step - 1], '.php') == 'jetimpex_upgrade' && $this->validate()) {
+					$this->model_upgrade_jetimpex_upgrade->mysql($this->request->post, 'opencart.sql');
+					$this->model_upgrade_jetimpex_upgrade->modifications();
+				} else {
+					$this->{'model_upgrade_' . str_replace('.', '', basename($files[$step - 1], '.php'))}->upgrade();
+				}
+
 				$json['success'] = sprintf($this->language->get('text_progress'), basename($files[$step - 1], '.php'), $step, count($files));
-			
+
 				$json['next'] = str_replace('&amp;', '&', $this->url->link('upgrade/upgrade/next', 'step=' . ($step + 1)));
 			} catch(Exception $exception) {
 				$json['error'] = sprintf($this->language->get('error_exception'), $exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
-			}		
+			}
 		} else {
 			$json['success'] = $this->language->get('text_success');
 		}
-				
+
 		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));			
+		$this->response->setOutput(json_encode($json));
+	}
+
+
+	private function validate() {
+		if (DB_DRIVER == 'mysql') {
+			if (!$connection = @mysqli_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD)) {
+				$this->error['warning'] = 'Error: Could not connect to the database please make sure the database server, username and password is correct in the config.php file!';
+			} else {
+				if (!mysqli_select_db(DB_DATABASE, $connection)) {
+					$this->error['warning'] = 'Error: Database "' . DB_DATABASE . '" does not exist!';
+				}
+
+				mysqli_close($connection);
+			}
+		}
+
+		return !$this->error;
 	}
 }

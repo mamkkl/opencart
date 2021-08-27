@@ -14,4 +14,4 @@ $_['text_account']      = '會 員 中 心';
 $_['text_order']        = '訂 購 記 錄';
 $_['text_wishlist']     = '商 品 備 忘 簿';
 $_['text_newsletter']   = '訂 閱 優 惠 通 訊';
-$_['text_powered']      = '繁體中文由 <a href="https://shop.myopencart.hk" target="_blank" style="color:white;" >myOpenCart.hk</a> 支持 |  <a href="http://www.Opencart.com" target="_blank" title="OpenCart" style="color:#0174DF;">OpenCart 版本 3.0.2.0</a><br /> %s &copy; %s';
+$_['text_powered']      = '由 <a href="http://www.Opencart.com" target="_blank" title="OpenCart" style="color:#0174DF;">WittiSys</a> 支持, 版本 3.0.2.0<br /> %s &copy; %s';

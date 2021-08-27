@@ -26,15 +26,6 @@ class ControllerCommonHeader extends Controller {
 
 		$data['title'] = $this->document->getTitle();
 
-		$data['base'] = $server;
-		$data['description'] = $this->document->getDescription();
-		$data['keywords'] = $this->document->getKeywords();
-		$data['links'] = $this->document->getLinks();
-		$data['styles'] = $this->document->getStyles();
-		$data['scripts'] = $this->document->getScripts('header');
-		$data['lang'] = $this->language->get('code');
-		$data['direction'] = $this->language->get('direction');
-
 		$data['name'] = $this->config->get('config_name');
 
 		if (is_file(DIR_IMAGE . $this->config->get('config_logo'))) {
@@ -76,6 +67,17 @@ class ControllerCommonHeader extends Controller {
 		$data['search'] = $this->load->controller('common/search');
 		$data['cart'] = $this->load->controller('common/cart');
 		$data['menu'] = $this->load->controller('common/menu');
+
+        $data['navigation'] = $this->load->controller('common/navigation');
+
+        $data['base'] = $server;
+        $data['description'] = $this->document->getDescription();
+        $data['keywords'] = $this->document->getKeywords();
+        $data['links'] = $this->document->getLinks();
+        $data['styles'] = $this->document->getStyles();
+        $data['scripts'] = $this->document->getScripts('header');
+        $data['lang'] = $this->language->get('code');
+        $data['direction'] = $this->language->get('direction');
 
 		return $this->load->view('common/header', $data);
 	}

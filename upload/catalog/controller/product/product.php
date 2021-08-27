@@ -265,14 +265,27 @@ class ControllerProductProduct extends Controller {
 			}
 
 			$data['images'] = array();
+			$popup_width = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width');
+            $popup_height = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height');
+			$image_additional_width = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_width');
+			$image_additional_height = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_height');
+            $thumb_width = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width');
+            $thumb_height = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height');
+			$data['popup_width'] = $popup_width;
+			$data['popup_height'] = $popup_height;
+            $data['image_additional_width'] = $image_additional_width;
+            $data['image_additional_height'] = $image_additional_height;
+            $data['thumb_width'] = $thumb_width;
+            $data['thumb_height'] = $thumb_height;
 
 			$results = $this->model_catalog_product->getProductImages($this->request->get['product_id']);
 
 			foreach ($results as $result) {
 				$data['images'][] = array(
-					'popup' => $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height')),
-					'thumb' => $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_height'))
-				);
+				    'additional' => $this->model_tool_image->resize($result['image'], $image_additional_width, $image_additional_height),
+					'popup' => $this->model_tool_image->resize($result['image'], $popup_width, $popup_height),
+					'thumb' => $this->model_tool_image->resize($result['image'], $thumb_width, $thumb_height)
+                );
 			}
 
 			if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
@@ -422,7 +435,9 @@ class ControllerProductProduct extends Controller {
 					'tax'         => $tax,
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $rating,
-					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'])
+					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id']),
+                    'img-height'  => $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width'),
+                    'img-width'   => $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height')
 				);
 			}
 

@@ -22,3 +22,5 @@ $_['text_rating_desc']  = '評價高 &gt; 低';
 $_['text_model_asc']    = '型號 A - Z';
 $_['text_model_desc']   = '型號 Z - A';
 $_['text_limit']        = '顯示數量';
+
+$_['text_quick']        = '詳情';

@@ -61,7 +61,9 @@ class ControllerExtensionModuleFeatured extends Controller {
 						'special'     => $special,
 						'tax'         => $tax,
 						'rating'      => $rating,
-						'href'        => $this->url->link('product/product', 'product_id=' . $product_info['product_id'])
+						'href'        => $this->url->link('product/product', 'product_id=' . $product_info['product_id']),
+                        'img-height'  => $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width'),
+                        'img-width'   => $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height')
 					);
 				}
 			}

@@ -123,7 +123,9 @@ class ControllerProductSpecial extends Controller {
 				'tax'         => $tax,
 				'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 				'rating'      => $result['rating'],
-				'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'] . $url)
+				'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'] . $url),
+                'img-height'  => $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width'),
+                'img-width'   => $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height')
 			);
 		}
 
