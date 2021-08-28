@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']      = 'OpenCart';
+$_['heading_title']      = 'Wittisys eCommerce';
 
 // Text
 $_['text_profile']       = 'Your Profile';
