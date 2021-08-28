@@ -765,7 +765,7 @@ input[type=checkbox]:checked::after {
 	font-size: 14px;
 	padding-left: 13px;
 	border-bottom: 0;
-	    text-align: center;
+	    text-align: left;
 }
 
 #menu li a i {
@@ -781,7 +781,7 @@ input[type=checkbox]:checked::after {
 
 #menu li li a {
 	color: #333!important;
-    text-align: center;
+    text-align: left;
 }
 
 #menu li li a:hover {
@@ -860,7 +860,7 @@ input[type=checkbox]:checked::after {
 }
 
 #menu li ul a {
-	padding-left: 0px;
+	padding-left: 25px;
 }
 
 #menu li li ul a {
