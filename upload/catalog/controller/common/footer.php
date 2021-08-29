@@ -1,7 +1,27 @@
 <?php
 class ControllerCommonFooter extends Controller {
 	public function index() {
+	
+		$text_view_all_results = $this->config->get('module_tt_live_search_view_all_results');
+		$data['text_view_all_results'] = $text_view_all_results[$this->config->get('config_language_id')]['name'];
+
+		$data['module_tt_live_search_status'] = $this->config->get('module_tt_live_search_status');
+		$data['module_tt_live_search_show_image'] = $this->config->get('module_tt_live_search_show_image');
+		$data['module_tt_live_search_show_price'] = $this->config->get('module_tt_live_search_show_price');
+		$data['module_tt_live_search_show_description'] = $this->config->get('module_tt_live_search_show_description');
+		$data['module_tt_live_search_min_length'] = $this->config->get('module_tt_live_search_min_length');
+		$data['module_tt_live_search_href'] = $this->url->link('product/search', 'search=');
+		$this->load->model('setting/setting');
+		$data['footer_layouts']=$this->model_setting_setting->getSettingValue('module_tt_themesettings_footer_layouts');
+	
 		$this->load->language('common/footer');
+
+		$data['footer_top'] = $this->load->controller('common/footer_top');
+		$data['footer_right'] = $this->load->controller('common/footer_right');
+		$data['footer_bottom'] = $this->load->controller('common/footer_bottom');
+		$data['footer_left'] = $this->load->controller('common/footer_left');
+		$data['footer1'] = $this->load->controller('common/footer1');
+		$data['footer2'] = $this->load->controller('common/footer2');
 
 		$this->load->model('catalog/information');
 
@@ -57,7 +77,6 @@ class ControllerCommonFooter extends Controller {
 		}
 
 		$data['scripts'] = $this->document->getScripts('footer');
-		$data['styles'] = $this->document->getStyles('footer');
 		
 		return $this->load->view('common/footer', $data);
 	}

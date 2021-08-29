@@ -1,0 +1,116 @@
+<div class="tt-latest-product">
+<div class="latest-carousel list-products">
+<div class="box-heading"><h3>{{ heading_title }}</h3></div>
+<div class="latest-items products-carousel row">
+{% set cnt = 1 %}
+{% set tcnt_l = products|length %}
+	{% for product in products %}
+		{% if tcnt_l >= 4 %}
+		{% if cnt  is divisible by(2) %}
+		{% else %}
+			<div class='single-column'>
+		{% endif %}
+		{% endif %}
+  <div class="product-layouts">
+    <div class="product-thumb transition">
+      <div class="image">
+		{% if product.thumb_swap %}
+			<a href="{{ product.href }}" class="{% if product.product_quantity==0 %} {{ "disabled" }} {% endif %}">
+				<img class="image_thumb" src="{{ product.thumb }}" title="{{ product.name }}" alt="{{ product.name }}" />
+				<img class="image_thumb_swap {{ effects }}" src="{{ product.thumb_swap }}" title="{{ product.name }}" alt="{{ product.name }}" />
+			</a>
+		{% else %}
+			<a href="{{ product.href }}">
+				<img class="img-responsive" src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" />
+			</a>
+		{% endif %}
+				{% if product.product_quantity ==0 %}
+				<div class="btn-outofcart {% if product.product_quantity==0 %} {{ "disabled" }} {% endif %}">
+					{{ "<span class=\"out of stock\">"~product.product_stock }}</span>			
+				</div>
+				{% endif %}
+			{% if product.special %}
+			  <div class="sale-icon">Sale</div>
+			  <span class="percent">-{{ product.percent }}%</span>
+			{% endif %}
+			
+		  		{% if product.rating %}
+				<div class="rating">
+				  {% for i in 1..5 %}
+				  {% if product.rating < i %}
+				  <span class="fa-stack"><i class="material-icons star_off">star_border</i></span>
+				  {% else %}
+				  <span class="fa-stack"><i class="material-icons star_on">star</i></span>
+				  {% endif %}
+				   {% endfor %}
+				</div>
+				{% endif %}
+			
+				  	<div class="button-group">
+					<button class="btn-cart {% if product.product_quantity<=0 %} {{ "disabled" }} {% endif %}" type="button" title="{% if product.product_quantity <=0 %}{{ product.product_stock }}{% else %}{{ button_cart }}{% endif %}" onclick="{% if product.product_quantity <=0 %}{% else %}cart.add('{{ product.product_id }}'){% endif %}"{% if product.product_quantity <=0 %}{{ "" }} 
+				{% endif %}>
+					 {% if product.product_quantity <=0 %}
+						{{ "<i class=\"material-icons\">shopping_cart</i><span class=\"out of stock\">"~product.product_stock }}
+						{% else %} 
+						{{ "<i class=\"material-icons\">shopping_cart</i> <span class=\"hidden-xs hidden-sm hidden-md\">"~button_cart }}
+					{% endif %}
+					</span>
+					<span class="loading"><i class="material-icons">cached</i></span>
+					</button>
+			  	<button class="btn-wishlist" title="{{ button_wishlist }}"  onclick="wishlist.add('{{ product.product_id }}');">
+				<i class="material-icons icon-wishlist">favorite_border</i>
+				<span title="{{ button_wishlist }}">{{ button_wishlist }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+				<button class="btn-compare" title="{{ button_compare }}"  onclick="compare.add('{{ product.product_id }}');">
+				<i class="material-icons icon-exchange">sync</i>
+				<span title="{{ button_compare }}">{{ button_compare }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+				<button class="btn-quickview" type="button" title="{{ button_quickview }}" onclick="tt_quickview.ajaxView('{{ product.href }}')">			
+				<i class="material-icons quick_view_icon">visibility</i>
+				<span title="{{ button_quickview }}">{{ button_quickview }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+      </div>
+
+	  </div>
+      <div class="thumb-description">
+      <div class="caption"> 
+		
+		<h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+		<p class="description">{{ product.description }}</p>
+		{% if product.price %}
+        <div class="price">
+          {% if not product.special %}
+          {{ product.price }}
+          {% else %}
+          <span class="price-new">{{ product.special }}</span> <span class="price-old">{{ product.price }}</span>
+          {% endif %}
+          {% if product.tax %}
+          <span class="price-tax">{{ text_tax }} {{ product.tax }}</span>
+          {% endif %}
+        </div>
+        {% endif %}
+        
+      </div>
+	 </div>
+    </div>
+  	</div>
+  		{% if tcnt_l >= 4 %}
+		{% if cnt is divisible by(2) %}
+			</div>
+		{% endif %}
+		{% endif %}
+		{% set cnt = cnt + 1 %}
+    {% endfor %}
+		{% set cnt = 1 %}
+		{% if tcnt_l >= 4 %} 
+		{% if tcnt_l  is divisible by(2) %}
+		{% else %}
+		</div>
+		{% endif %} 
+		{% endif %}
+</div>
+</div>
+</div>

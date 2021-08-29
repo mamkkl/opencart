@@ -1,0 +1,14 @@
+{% if modules %}
+<aside id="column-left" class="col-sm-2 hidden-xs">
+      <div class="leftbar"></div>
+      <div class="filter_left_button">
+      <button class="left-button column_button">l</button>
+      <button class="cancel-button column_button">x</button>
+      </div>
+  <div class="left-right-inner">
+  {% for module in modules %}
+  {{ module }}
+  {% endfor %}
+  </div>
+</aside>
+{% endif %}

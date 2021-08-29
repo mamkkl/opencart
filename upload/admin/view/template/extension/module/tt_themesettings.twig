@@ -1,0 +1,435 @@
+{{ header }}
+{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+	    <button type="submit" name="module_tt_reset" value="" form="form-module" data-toggle="tooltip" title="{{ button_reset }}" class="btn btn-info"><i class="fa fa-refresh"></i></button>
+        <button type="submit" form="form-module" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title" style="text-transform:uppercase;"><i class="fa fa-cogs"></i> {{ text_edit_header }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+			<div class="form-group">
+			<label class="col-md-2 col-sm-3 col-xs-12 control-label" for="input-header_layouts">{{ entry_header_layouts }}</label>
+			<div class="col-md-2 col-sm-4 col-xs-12">
+			  <select name="module_tt_themesettings_header_layouts" id="input-header_layouts" class="form-control">
+				{% if module_tt_themesettings_header_layouts == 'header_default' %}
+					<option value="header_default" selected="selected">{{ text_header_default }}</option>
+					<option value="header_style1">{{ text_header_style1 }}</option>
+					<option value="header_style2">{{ text_header_style2 }}</option>
+					
+				{% elseif module_tt_themesettings_header_layouts == 'header_style1' %}
+					<option value="header_default">{{ text_header_default }}</option>
+					<option value="header_style1" selected="selected">{{ text_header_style1 }}</option>
+					<option value="header_style2">{{ text_header_style2 }}</option>
+					
+				{% else %} 
+					<option value="header_default" >{{ text_header_default }}</option>
+					<option value="header_style1">{{ text_header_style1 }}</option>
+					<option value="header_style2" selected="selected">{{ text_header_style2 }}</option>
+
+				{% endif %}
+			  </select>
+			</div>
+			<p class="col-sm-5 col-xs-12" style="color: #aaaaaa; font-style: italic; font-size: 14px;">select any one header style option out of 3 styles.</p>
+			
+		  </div>
+		    <div class="form-group">
+				<label class="col-md-2 col-sm-3 col-xs-12 control-label" for="input-header_sticky">{{ entry_header_sticky }}</label>
+				<div class="col-md-2 col-sm-4 col-xs-12">
+			  <select name="module_tt_themesettings_header_sticky" id="input-header_sticky" class="form-control">
+				{% if module_tt_themesettings_header_sticky == 'header_sticky_on'%}
+					<option value="header_sticky_on" selected="selected">{{ text_header_sticky }}</option>
+					<option value="header_sticky_off">{{ text_header_sticky_off }}</option>
+					
+				{% else %}
+					<option value="header_sticky_on">{{ text_header_sticky }}</option>
+					<option value="header_sticky_off" selected="selected">{{ text_header_sticky_off }}</option>
+				{% endif %}
+			  </select>
+			</div>
+			<p class="col-sm-5 col-xs-12" style="color: #aaaaaa; font-style: italic; font-size: 14px;">select option for sticky header style.</p>
+			</div>
+		  
+		<br /><br />
+		<fieldset>
+		  <legend class="panel-title" style="text-transform:uppercase;"><i class="fa fa-cogs"></i> {{ text_edit }}</legend>
+		  	<div class="form-group">
+			<label class="col-md-2 col-sm-3 col-xs-12 control-label" for="input-effects">{{ entry_effects }}</label>
+			<div class="col-md-2 col-sm-4 col-xs-12">
+			  <select name="module_tt_themesettings_effects" id="input-effects" class="form-control">
+				{% if module_tt_themesettings_effects == 'fade' %}
+					<option value="fade" selected="selected">{{ text_fade_effect }}</option>
+					<option value="zoom">{{ text_zoom_effect }}</option>
+					<option value="horizontal_scrolling_right_to_left">{{ text_hrl_effect }}</option>
+					<option value="horizontal_scrolling_left_to_right">{{ text_hlr_effect }}</option>
+					<option value="vertical_scrolling_top_to_bottom">{{ text_vtb_effect }}</option>
+					<option value="horizontal_scrolling_right_to_left">{{ text_vbt_effect }}</option>
+					
+				{% elseif module_tt_themesettings_effects == 'zoom' %}
+					<option value="fade">{{ text_fade_effect }}</option>
+					<option value="zoom" selected="selected">{{ text_zoom_effect }}</option>
+					<option value="horizontal_scrolling_right_to_left">{{ text_hrl_effect }}</option>
+					<option value="horizontal_scrolling_left_to_right">{{ text_hlr_effect }}</option>
+					<option value="vertical_scrolling_top_to_bottom">{{ text_vtb_effect }}</option>
+					<option value="vertical_scrolling_bottom_to_top">{{ text_vbt_effect }}</option>
+					
+				{% elseif module_tt_themesettings_effects == 'horizontal_scrolling_right_to_left' %}
+					<option value="fade">{{ text_fade_effect }}</option>
+					<option value="zoom">{{ text_zoom_effect }}</option>
+					<option value="horizontal_scrolling_right_to_left" selected="selected">{{ text_hrl_effect }}</option>
+					<option value="horizontal_scrolling_left_to_right">{{ text_hlr_effect }}</option>
+					<option value="vertical_scrolling_top_to_bottom">{{ text_vtb_effect }}</option>
+					<option value="vertical_scrolling_bottom_to_top">{{ text_vbt_effect }}</option>
+					
+				{% elseif module_tt_themesettings_effects == 'horizontal_scrolling_left_to_right' %}
+					<option value="fade">{{ text_fade_effect }}</option>
+					<option value="zoom">{{ text_zoom_effect }}</option>
+					<option value="horizontal_scrolling_right_to_left">{{ text_hrl_effect }}</option>
+					<option value="horizontal_scrolling_left_to_right" selected="selected">{{ text_hlr_effect }}</option>
+					<option value="vertical_scrolling_top_to_bottom">{{ text_vtb_effect }}</option>
+					<option value="vertical_scrolling_bottom_to_top">{{ text_vbt_effect }}</option>
+					
+				{% elseif module_tt_themesettings_effects == 'vertical_scrolling_top_to_bottom' %}
+					<option value="fade">{{ text_fade_effect }}</option>
+					<option value="zoom">{{ text_zoom_effect }}</option>
+					<option value="horizontal_scrolling_right_to_left">{{ text_hrl_effect }}</option>
+					<option value="horizontal_scrolling_left_to_right">{{ text_hlr_effect }}</option>
+					<option value="vertical_scrolling_top_to_bottom" selected="selected">{{ text_vtb_effect }}</option>
+					<option value="vertical_scrolling_bottom_to_top">{{ text_vbt_effect }}</option>
+					
+				{% else %}
+					<option value="fade" >{{ text_fade_effect }}</option>
+					<option value="zoom">{{ text_zoom_effect }}</option>
+					<option value="horizontal_scrolling_right_to_left">{{ text_hrl_effect }}</option>
+					<option value="horizontal_scrolling_left_to_right">{{ text_hlr_effect }}</option>
+					<option value="vertical_scrolling_top_to_bottom">{{ text_vtb_effect }}</option>
+					<option value="vertical_scrolling_bottom_to_top" selected="selected">{{ text_vbt_effect }}</option>
+				{% endif %}
+			  </select>
+			</div>
+			<p class="col-sm-5 col-xs-12" style="color: #aaaaaa; font-style: italic; font-size: 14px;">select option for product image transition effect style.</p>
+		  </div>
+			<div class="form-group">
+				<label class="col-md-2 col-sm-3 col-xs-12 control-label" for="input-effects">{{ entry_button_effects }}</label>
+				<div class="col-md-2 col-sm-4 col-xs-12">
+			  <select name="module_tt_themesettings_button_effects" id="input-button_effects" class="form-control">
+				{% if module_tt_themesettings_button_effects == 'product_btn_style1'%}
+					<option value="product_btn_style1" selected="selected">{{ text_button1 }}</option>
+					<option value="product_btn_style2">{{ text_button2 }}</option>
+					<option value="product_btn_style3">{{ text_button3 }}</option>
+					
+				{% elseif module_tt_themesettings_button_effects == 'product_btn_style2' %}
+					<option value="product_btn_style1">{{ text_button1 }}</option>
+					<option value="product_btn_style2" selected="selected">{{ text_button2 }}</option>
+					<option value="product_btn_style3">{{ text_button3 }}</option>
+					
+				{% else %}
+					<option value="product_btn_style1">{{ text_button1 }}</option>
+					<option value="product_btn_style2">{{ text_button2 }}</option>
+					<option value="product_btn_style3" selected="selected">{{ text_button3 }}</option>
+				{% endif %}
+			  </select>
+			</div>
+			<p class="col-sm-5 col-xs-12" style="color: #aaaaaa; font-style: italic; font-size: 14px;">select option for display product button design style.</p>
+			</div>
+		  </fieldset>
+		<br /><br />
+		<fieldset>
+		  <legend class="panel-title" style="text-transform:uppercase;"><i class="fa fa-cogs"></i> {{ text_edit_blog }}</legend>
+		  <div class="form-group">
+			<label class="col-md-2 col-sm-3 col-xs-12 control-label" for="input-blog_style">{{ entry_blog_style }}</label>
+			<div class="col-md-2 col-sm-4 col-xs-12">
+			  <select name="module_tt_themesettings_blog_style" id="input-blog_style" class="form-control">
+				{% if module_tt_themesettings_blog_style == 'blog_style1' %}
+					<option value="blog_style1" selected="selected">{{ text_blog_style1 }}</option>
+					<option value="blog_style2">{{ text_blog_style2 }}</option>
+					<option value="blog_style3">{{ text_blog_style3 }}</option>
+					
+				{% elseif module_tt_themesettings_blog_style == 'blog_style2' %}
+					<option value="blog_style1">{{ text_blog_style1 }}</option>
+					<option value="blog_style2" selected="selected">{{ text_blog_style2 }}</option>
+					<option value="blog_style3">{{ text_blog_style3 }}</option>
+					
+				{% else %}
+					<option value="blog_style1">{{ text_blog_style1 }}</option>
+					<option value="blog_style2">{{ text_blog_style2 }}</option>
+					<option value="blog_style3" selected="selected">{{ text_blog_style3 }}</option>
+				{% endif %}
+			  </select>
+			</div>
+			<p class="col-sm-5 col-xs-12" style="color: #aaaaaa; font-style: italic; font-size: 14px;">select blog style option out of 4 styles.</p>
+		  </div>
+		</fieldset>
+		
+		<br /><br />
+		<fieldset>
+		  <legend class="panel-title" style="text-transform:uppercase;"><i class="fa fa-cogs"></i> {{ text_edit_responsive_product }}</legend>
+		  <div class="form-group">
+			<label class="col-md-2 col-sm-3 col-xs-12 control-label" for="input-responsive">{{ entry_responsive_product }}</label>
+			<div class="col-md-2 col-sm-4 col-xs-12">
+			  <select name="module_tt_themesettings_responsive_layouts" id="input-responsive" class="form-control">
+				{% if module_tt_themesettings_responsive_layouts == 'responsive_style1' %}
+					<option value="responsive_style1" selected="selected">{{ text_responsive_style1 }}</option>
+					<option value="responsive_style2">{{ text_responsive_style2 }}</option>
+					
+				{% else %}
+					<option value="responsive_style1">{{ text_responsive_style1 }}</option>
+					<option value="responsive_style2" selected="selected">{{ text_responsive_style2 }}</option>
+				{% endif %}
+			  </select>
+			</div>
+			<p class="col-sm-5 col-xs-12" style="color: #aaaaaa; font-style: italic; font-size: 14px;">select option for change product design in mobile view.</p>
+		  </div>
+		</fieldset>
+		
+		<br /><br />
+		<fieldset>
+		  <legend class="panel-title" style="text-transform:uppercase;"><i class="fa fa-cogs"></i> {{ text_edit_footer }}</legend>
+		  <div class="form-group">
+			<label class="col-md-2 col-sm-3 col-xs-12 control-label" for="input-footer_layouts">{{ entry_footer_layouts }}</label>
+			<div class="col-md-2 col-sm-4 col-xs-12">
+			  <select name="module_tt_themesettings_footer_layouts" id="input-footer_layouts" class="form-control">
+				{% if module_tt_themesettings_footer_layouts == 'footer_default' %}
+					<option value="footer_default" selected="selected">{{ text_footer_default }}</option>
+					<option value="footer_style1">{{ text_footer_style1 }}</option>
+					<option value="footer_style2">{{ text_footer_style2 }}</option>
+					
+				{% elseif module_tt_themesettings_footer_layouts == 'footer_style1' %}
+					<option value="footer_default">{{ text_footer_default }}</option>
+					<option value="footer_style1" selected="selected">{{ text_footer_style1 }}</option>
+					<option value="footer_style2">{{ text_footer_style2 }}</option>
+					
+				{% else %}
+					<option value="footer_default" >{{ text_footer_default }}</option>
+					<option value="footer_style1">{{ text_footer_style1 }}</option>
+					<option value="footer_style2" selected="selected">{{ text_footer_style2 }}</option>
+				{% endif %}
+			  </select>
+			</div>
+			<p class="col-sm-5 col-xs-12" style="color: #aaaaaa; font-style: italic; font-size: 14px;">select any one footer style option out of 3 styles.</p>
+		  </div>
+		</fieldset>
+		
+		<br /><br />
+		
+		
+		<fieldset>
+		  <legend class="panel-title" style="text-transform:uppercase;"><i class="fa fa-cogs"></i> {{ text_edit_category }}</legend>
+		  <div class="form-group">
+			<label class="col-md-2 col-sm-3 col-xs-12 control-label" for="input-product_column">{{ entry_product_column }}</label>
+			<div class="col-md-2 col-sm-4 col-xs-12">
+			  <select name="module_tt_themesettings_product_column" id="input-product_column" class="form-control">
+				{% if module_tt_themesettings_product_column == 'column_3' %}
+					<option value="column_3" selected="selected">{{ text_column3 }}</option>
+					<option value="column_4">{{ text_column4 }}</option>
+					<option value="column_5">{{ text_column5 }}</option>
+					<option value="column_6">{{ text_column6 }}</option>
+					<option value="column_7">{{ text_column7 }}</option>
+					<option value="column_8">{{ text_column8 }}</option>
+					
+				{% elseif module_tt_themesettings_product_column == 'column_4' %}
+					<option value="column_3">{{ text_column3 }}</option>
+					<option value="column_4" selected="selected">{{ text_column4 }}</option>
+					<option value="column_5">{{ text_column5 }}</option>
+					<option value="column_6">{{ text_column6 }}</option>
+					<option value="column_7">{{ text_column7 }}</option>
+					<option value="column_8">{{ text_column8 }}</option>
+					
+				{% elseif module_tt_themesettings_product_column == 'column_5' %}
+					<option value="column_3">{{ text_column3 }}</option>
+					<option value="column_4">{{ text_column4 }}</option>
+					<option value="column_5" selected="selected">{{ text_column5 }}</option>
+					<option value="column_6">{{ text_column6 }}</option>
+					<option value="column_7">{{ text_column7 }}</option>
+					<option value="column_8">{{ text_column8 }}</option>
+					
+				{% elseif module_tt_themesettings_product_column == 'column_6' %}
+					<option value="column_3">{{ text_column3 }}</option>
+					<option value="column_4">{{ text_column4 }}</option>
+					<option value="column_5">{{ text_column5 }}</option>
+					<option value="column_6" selected="selected">{{ text_column6 }}</option>
+					<option value="column_7">{{ text_column7 }}</option>
+					<option value="column_8">{{ text_column8 }}</option>
+					
+				{% elseif module_tt_themesettings_product_column == 'column_7' %}
+					<option value="column_3">{{ text_column3 }}</option>
+					<option value="column_4">{{ text_column4 }}</option>
+					<option value="column_5">{{ text_column5 }}</option>
+					<option value="column_6">{{ text_column6 }}</option>
+					<option value="column_7" selected="selected">{{ text_column7 }}</option>
+					<option value="column_8">{{ text_column8 }}</option>	
+					
+				{% else %}
+					<option value="column_3">{{ text_column3 }}</option>
+					<option value="column_4">{{ text_column4 }}</option>
+					<option value="column_5">{{ text_column5 }}</option>
+					<option value="column_6">{{ text_column6 }}</option>
+					<option value="column_7">{{ text_column7 }}</option>
+					<option value="column_8" selected="selected">{{ text_column8 }}</option>
+				{% endif %}
+			  </select>
+			</div>
+			<p class="col-sm-5 col-xs-12" style="color: #aaaaaa; font-style: italic; font-size: 14px;">select product column for grid view style.</p>
+		  </div>
+		  <div class="form-group">
+			<label class="col-md-2 col-sm-3 col-xs-12 control-label" for="input-page_filter">{{ entry_page_filter }}</label>
+			<div class="col-md-2 col-sm-4 col-xs-12">
+			  <select name="module_tt_themesettings_page_filter" id="input-page_filter" class="form-control">
+				{% if module_tt_themesettings_page_filter == 'filter_with_sidebar' %}
+					<option value="filter_with_sidebar" selected="selected">{{ text_filter1 }}</option>
+					<option value="filter_toggle">{{ text_filter2 }}</option>
+					<option value="off-canvas_right_filter">{{ text_filter3 }}</option>
+					<option value="off-canvas_left_filter">{{ text_filter4 }}</option>
+					
+				{% elseif module_tt_themesettings_page_filter == 'filter_toggle' %}
+					<option value="filter_with_sidebar">{{ text_filter1 }}</option>
+					<option value="filter_toggle" selected="selected">{{ text_filter2 }}</option>
+					<option value="off-canvas_right_filter">{{ text_filter3 }}</option>
+					<option value="off-canvas_left_filter">{{ text_filter4 }}</option>
+					
+				{% elseif module_tt_themesettings_page_filter == 'off-canvas_right_filter' %}
+					<option value="filter_with_sidebar">{{ text_filter1 }}</option>
+					<option value="filter_toggle">{{ text_filter2 }}</option>
+					<option value="off-canvas_right_filter" selected="selected">{{ text_filter3 }}</option>
+					<option value="off-canvas_left_filter">{{ text_filter4 }}</option>
+					
+				{% else %}
+					<option value="filter_with_sidebar">{{ text_filter1 }}</option>
+					<option value="filter_toggle">{{ text_filter2 }}</option>
+					<option value="off-canvas_right_filter">{{ text_filter3 }}</option>
+					<option value="off-canvas_left_filter" selected="selected">{{ text_filter4 }}</option>
+				{% endif %}
+			  </select>
+			</div>
+			<p class="col-sm-5 col-xs-12" style="color: #aaaaaa; font-style: italic; font-size: 14px;">select any one filter option out of 4 styles.</p>
+		  </div>
+		  <div class="form-group">
+			<label class="col-md-2 col-sm-3 col-xs-12 control-label" for="input-page_load">{{ entry_page_load }}</label>
+			<div class="col-md-2 col-sm-4 col-xs-12">
+			  <select name="module_tt_themesettings_page_load" id="input-page_load" class="form-control">
+				{% if module_tt_themesettings_page_load == 'product_pagination' %}
+					<option value="product_pagination" selected="selected">{{ text_page_pagination }}</option>
+					<option value="load_more">{{ text_page_more }}</option>
+					
+				{% else %}
+					<option value="product_pagination">{{ text_page_pagination }}</option>
+					<option value="load_more " selected="selected">{{ text_page_more }}</option>
+				{% endif %}
+			  </select>
+			</div>
+			<p class="col-sm-5 col-xs-12" style="color: #aaaaaa; font-style: italic; font-size: 14px;">select option for display page load style.</p>
+		  </div>
+		  <div class="form-group">
+			<label class="col-md-2 col-sm-3 col-xs-12 control-label" for="input-grid_view">{{ entry_grid_view }}</label>
+			<div class="col-md-2 col-sm-4 col-xs-12">
+			  <select name="module_tt_themesettings_grid_view" id="input-grid_view" class="form-control">
+				{% if module_tt_themesettings_grid_view == 'grid-default' %}
+					<option value="grid-default" selected="selected">{{ text_grid_default }}</option>
+					<option value="grid-masonary">{{ text_grid_masonary }}</option>
+					
+				{% else %}
+					<option value="grid-default">{{ text_grid_default }}</option>
+					<option value="grid-masonary" selected="selected">{{ text_grid_masonary }}</option>
+				{% endif %}
+			  </select>
+			</div>
+			<p class="col-sm-5 col-xs-12" style="color: #aaaaaa; font-style: italic; font-size: 14px;">select option for display grid view styles.</p>
+		  </div>
+		</fieldset>
+		
+		<br /><br />
+		<fieldset>
+		  <legend class="panel-title" style="text-transform:uppercase;"><i class="fa fa-cogs"></i> {{ text_edit_product }}</legend>
+		  <div class="form-group">
+			<label class="col-md-2 col-sm-3 col-xs-12 control-label" for="input-product_layouts">{{ entry_product_layouts }}</label>
+			<div class="col-md-2 col-sm-4 col-xs-12">
+			  <select name="module_tt_themesettings_product_layouts" id="input-product_layouts" class="form-control">
+				{% if module_tt_themesettings_product_layouts == 'productlayout_default' %}
+					<option value="productlayout_default" selected="selected">{{ text_product_layout1 }}</option>
+					<option value="product_extended">{{ text_product_layout2 }}</option>
+					<option value="product_grid_images">{{ text_product_layout3 }}</option>
+					<option value="product_sticky_right">{{ text_product_layout4 }}</option>
+					<option value="product_compact">{{ text_product_layout5 }}</option>
+					
+				{% elseif module_tt_themesettings_product_layouts == 'product_extended' %}
+					<option value="productlayout_default">{{ text_product_layout1 }}</option>
+					<option value="product_extended" selected="selected">{{ text_product_layout2 }}</option>
+					<option value="product_grid_images">{{ text_product_layout3 }}</option>
+					<option value="product_sticky_right">{{ text_product_layout4 }}</option>
+					<option value="product_compact">{{ text_product_layout5 }}</option>
+					
+				{% elseif module_tt_themesettings_product_layouts == 'product_grid_images' %}
+					<option value="productlayout_default">{{ text_product_layout1 }}</option>
+					<option value="product_extended">{{ text_product_layout2 }}</option>
+					<option value="product_grid_images" selected="selected">{{ text_product_layout3 }}</option>
+					<option value="product_sticky_right">{{ text_product_layout4 }}</option>
+					<option value="product_compact">{{ text_product_layout5 }}</option>
+					
+				{% elseif module_tt_themesettings_product_layouts == 'product_sticky_right' %}
+					<option value="productlayout_default">{{ text_product_layout1 }}</option>
+					<option value="product_extended">{{ text_product_layout2 }}</option>
+					<option value="product_grid_images">{{ text_product_layout3 }}</option>
+					<option value="product_sticky_right" selected="selected">{{ text_product_layout4 }}</option>
+					<option value="product_compact">{{ text_product_layout5 }}</option>
+					
+				{% else %}
+					<option value="productlayout_default">{{ text_product_layout1 }}</option>
+					<option value="product_extended">{{ text_product_layout2 }}</option>
+					<option value="product_grid_images">{{ text_product_layout3 }}</option>
+					<option value="product_sticky_right">{{ text_product_layout4 }}</option>
+					<option value="product_compact" selected="selected">{{ text_product_layout5 }}</option>
+				{% endif %}
+			  </select>
+			</div>
+			<p class="col-sm-5 col-xs-12" style="color: #aaaaaa; font-style: italic; font-size: 14px;">select any one product page design style option.</p>
+		  </div>
+		</fieldset>
+		
+		<br /><br />
+		
+		<fieldset>
+		  <legend class="panel-title" style="text-transform:uppercase;"><i class="fa fa-cogs"></i> {{ text_responsive_logo }}</legend>
+		  <div class="form-group">
+			<label class="col-md-2 col-sm-3 col-xs-12 control-label" for="input-logo">{{ entry_responsive_logo }}</label>
+			<div class="col-md-2 col-sm-4 col-xs-12">
+			<a href="" id="thumb-image" data-toggle="image" class="img-thumbnail"><img src="{{ thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+            <input type="hidden" name="module_tt_themesettings_image" value="{{ module_tt_themesettings_image }}" id="input-image" />
+            </div>
+			<p class="col-sm-5 col-xs-12" style="color: #aaaaaa; font-style: italic; font-size: 14px;">Upload logo for mobile view.</p>
+		  </div>
+		</fieldset>
+		
+		<br /><br />
+        </form>
+      </div>
+    </div>
+	
+  </div>
+</div>
+{{ footer }}
+<script>
+$(document).ready(function(){
+$("#btn-info").click(function(){
+//$("#form")[0].reset();
+$("#form-module")[0].reset();
+});});
+</script>

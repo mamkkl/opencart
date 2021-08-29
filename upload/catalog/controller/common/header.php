@@ -3,6 +3,27 @@ class ControllerCommonHeader extends Controller {
 	public function index() {
 		// Analytics
 		$this->load->model('setting/extension');
+		
+		$data['text_blog'] = $this->language->get('text_blog');
+		$data['all_blogs'] = $this->url->link('information/tt_blog/blogs');
+		
+		$this->load->model('setting/extension');
+		$results = $this->model_setting_extension->getExtensions("module");
+		foreach($results as $result){
+			if($result['code'] === "tt_blog"){ $data['blog_enable'] = 1; }
+		}
+		
+		//ttthemesettings
+		$this->load->model('setting/setting');
+		$data['button_effects']=$this->model_setting_setting->getSettingValue('module_tt_themesettings_button_effects');
+		$data['header_layouts']=$this->model_setting_setting->getSettingValue('module_tt_themesettings_header_layouts');
+		$data['header_sticky']=$this->model_setting_setting->getSettingValue('module_tt_themesettings_header_sticky');
+		
+		
+		$data['page_load']=$this->model_setting_setting->getSettingValue('module_tt_themesettings_page_load');
+		$data['product_layouts']=$this->model_setting_setting->getSettingValue('module_tt_themesettings_product_layouts');
+		$data['responsive']=$this->model_setting_setting->getSettingValue('module_tt_themesettings_responsive_layouts');
+		$data['responsive_logo']=$this->model_setting_setting->getSettingValue('module_tt_themesettings_image');
 
 		$data['analytics'] = array();
 
@@ -35,6 +56,11 @@ class ControllerCommonHeader extends Controller {
 		$data['lang'] = $this->language->get('code');
 		$data['direction'] = $this->language->get('direction');
 
+		$data['theme_path'] = $this->config->get('config_template');
+		$data['header_top'] = $this->load->controller('common/header_top');
+		$data['header_right'] = $this->load->controller('common/header_right');
+		$data['header_bottom'] = $this->load->controller('common/header_bottom');
+		$data['header_left'] = $this->load->controller('common/header_left');
 		$data['name'] = $this->config->get('config_name');
 
 		if (is_file(DIR_IMAGE . $this->config->get('config_logo'))) {
@@ -42,9 +68,16 @@ class ControllerCommonHeader extends Controller {
 		} else {
 			$data['logo'] = '';
 		}
+		
+		if (is_file(DIR_IMAGE . $this->config->get('module_tt_themesettings_image'))) {
+			$data['mobile_logo'] = $server . 'image/' . $this->config->get('module_tt_themesettings_image');
+		} else {
+			$data['mobile_logo'] = '';
+		}
 
 		$this->load->language('common/header');
 
+		$data['text_home'] = $this->language->get('text_home');
 		// Wishlist
 		if ($this->customer->isLogged()) {
 			$this->load->model('account/wishlist');
@@ -53,10 +86,26 @@ class ControllerCommonHeader extends Controller {
 		} else {
 			$data['text_wishlist'] = sprintf($this->language->get('text_wishlist'), (isset($this->session->data['wishlist']) ? count($this->session->data['wishlist']) : 0));
 		}
+		// compare
+		$data['text_compare'] = sprintf($this->language->get('text_compare'), (isset($this->session->data['compare']) ? count($this->session->data['compare']) : 0));
 
+		$data['text_shopping_cart'] = $this->language->get('text_shopping_cart');
 		$data['text_logged'] = sprintf($this->language->get('text_logged'), $this->url->link('account/account', '', true), $this->customer->getFirstName(), $this->url->link('account/logout', '', true));
 		
+		$data['text_account'] = $this->language->get('text_account');
+		$data['text_register'] = $this->language->get('text_register');
+		$data['text_login'] = $this->language->get('text_login');
+		$data['text_order'] = $this->language->get('text_order');
+		$data['text_transaction'] = $this->language->get('text_transaction');
+		$data['text_download'] = $this->language->get('text_download');
+		$data['text_logout'] = $this->language->get('text_logout');
+		$data['text_checkout'] = $this->language->get('text_checkout');
+		$data['text_category'] = $this->language->get('text_category');
+		$data['text_all'] = $this->language->get('text_all');		
+		$data['text_contact'] = $this->language->get('text_contact');
+		$data['text_blog'] = $this->language->get('text_blog');
 		$data['home'] = $this->url->link('common/home');
+		$data['compare'] = $this->url->link('product/compare', '', true);
 		$data['wishlist'] = $this->url->link('account/wishlist', '', true);
 		$data['logged'] = $this->customer->isLogged();
 		$data['account'] = $this->url->link('account/account', '', true);
@@ -70,13 +119,39 @@ class ControllerCommonHeader extends Controller {
 		$data['checkout'] = $this->url->link('checkout/checkout', '', true);
 		$data['contact'] = $this->url->link('information/contact');
 		$data['telephone'] = $this->config->get('config_telephone');
-		
+		$data['email'] = $this->config->get('config_email');
+			
+
 		$data['language'] = $this->load->controller('common/language');
 		$data['currency'] = $this->load->controller('common/currency');
 		$data['search'] = $this->load->controller('common/search');
 		$data['cart'] = $this->load->controller('common/cart');
 		$data['menu'] = $this->load->controller('common/menu');
+		$data['header1'] = $this->load->controller('common/header1');
+		$data['header2'] = $this->load->controller('common/header2');
+		
+		$data['manufacturer'] = $this->url->link('product/manufacturer');
+		$data['voucher'] = $this->url->link('account/voucher', '', true);
+		$data['affiliate'] = $this->url->link('affiliate/login', '', true);
+		
+		// For page specific css
+		if (isset($this->request->get['route'])) {
+			if (isset($this->request->get['product_id'])) {
+				$class = '-' . $this->request->get['product_id'];
+			} elseif (isset($this->request->get['path'])) {
+				$class = '-' . $this->request->get['path'];
+			} elseif (isset($this->request->get['manufacturer_id'])) {
+				$class = '-' . $this->request->get['manufacturer_id'];
+			} elseif (isset($this->request->get['information_id'])) {
+				$class = '-' . $this->request->get['information_id'];
+			} else {
+				$class = '';
+			}
 
+			$data['class'] = str_replace('/', '-', $this->request->get['route']) . $class;
+		} else {
+			$data['class'] = 'common-home';
+		}
 		return $this->load->view('common/header', $data);
 	}
 }

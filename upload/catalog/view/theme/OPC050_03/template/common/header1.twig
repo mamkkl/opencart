@@ -1,0 +1,118 @@
+<header>
+<div class="header">
+<div class="full-header">
+  <div class="container">
+  		<div class="header-left">
+        <div id="logo">
+			{% if logo %}
+				<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" /></a>
+			{% else %}
+          		<h1><a href="{{ home }}">{{ name }}</a></h1>
+          {% endif %}
+	  </div>
+	  <div id="mobile-logo">
+			{% if mobile_logo %}
+				<a href="{{ home }}"><img src="{{ mobile_logo }}" title="{{ name }}" alt="{{ name }}" class="mobile-logo" /></a>
+			{% else %}
+          		<h1><a href="{{ home }}">{{ name }}</a></h1>
+          {% endif %}
+      </div>
+    </div>
+		<div id="tttoplink_block">
+			<ul id="tt_toplink" class="block_content">
+				<li class="tttoplink tthome"><a title="home" href="#">Home</a></li>
+				<li class="tttoplink"><a href="{{ manufacturer }}">{{ text_manufacturers }}</a></li>
+				<li class="tttoplink"><a href="{{ voucher }}">{{ text_voucher }}</a></li>
+				<li class="tttoplink"><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+				<li class="tttoplink"><a href="{{ contact }}">{{ text_contact }}</a></li>
+				<li class="tttoplink"><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+			</ul>
+		</div>
+		<div class="header-right">
+			  <div class="user-info">
+	  <div class="dropdown">
+	  <a href="{{ account }}" title="{{ text_user }}" class="dropdown-toggle" data-toggle="dropdown">
+		<span class="ttuserheading">{{ text_user }}</span>
+		<i class="material-icons user">perm_identity</i>
+		<i class="material-icons expand-more">expand_more</i>
+	  </a>
+			  <ul class="dropdown-menu dropdown-menu-right account-link-toggle">
+				{% if logged %}
+				<li><a href="{{ account }}"><i class='material-icons ma-user'>perm_identity</i> {{ text_account }}</a></li>
+				<li><a href="{{ order }}"><i class='material-icons calendar-today'>calendar_today</i> {{ text_order }}</a></li>
+				<li><a href="{{ transaction }}"><i class='material-icons credit-card'>credit_card</i> {{ text_transaction }}</a></li>
+				<li><a href="{{ download }}"><i class='material-icons save-alt'>save_alt</i> {{ text_download }}</a></li>
+				<li><a href="{{ compare }}" id="compare-total" title="{{ text_compare }}">
+				<i class="material-icons icon-compare">repeat</i> <span class="hidden-sm hidden-md">{{ text_compare }}</span></a></li>
+				<li><a href="{{ wishlist }}" id="wishlist-total" title="{{ text_wishlist }}"><i class="material-icons favorite">favorite_border</i> <span class="hidden-sm hidden-md">{{ text_wishlist }}</span></a></li>
+				<li><a href="{{ logout }}"><i class="material-icons">lock_open</i> {{ text_logout }}</a></li>
+				<li class="ttlanguage">{{ language }}</li>
+				<li class="ttcurrency">{{ currency }}</li>
+				{% else %}
+				<li><a href="{{ login }}"><i class="material-icons">lock_outline</i> {{ text_login }}</a></li>
+				<li><a href="{{ register }}"><i class='material-icons reg-person'>perm_identity</i> {{ text_register }}</a></li>
+				<li><a href="{{ compare }}" id="compare-total" title="{{ text_compare }}">
+				<i class="material-icons icon-compare">repeat</i> <span class="hidden-sm hidden-md">{{ text_compare }}</span></a></li>
+				<li><a href="{{ wishlist }}" id="wishlist-total" title="{{ text_wishlist }}"><i class="material-icons favorite">favorite_border</i> <span class="hidden-sm hidden-md">{{ text_wishlist }}</span></a></li>
+				<li class="ttlanguage">{{ language }}</li>
+				<li class="ttcurrency">{{ currency }}</li>
+				{% endif %}
+			  </ul>
+			  </div>
+			</div>
+			  <div class="cart">{{ cart }}</div>
+		</div>	
+  </div>
+  <div class="full-bottom">
+	  <div class="container">
+	  {% if header_left %}
+		<div class="header-left">
+		{{ header_left }}
+		</div>
+	  {% endif %}
+	    <div class="search col-sm-6">{{ search }}</div>
+		 {% if header_right %}
+			<div class="header-right-cms">
+			{{ header_right }}
+			</div>
+		{% endif %}
+		
+	  </div>
+  </div>
+<div class="header-bottom-block">
+<div class="container">
+	{% if header_bottom %}
+		<div class="header-bottom">
+		{{ header_bottom }}
+		</div>
+	 {% endif %}	
+</div>
+	 
+  </div>
+  </div>
+</header>
+<script><!--
+$(document).ready(function() {
+/* ---------------- start Templatetrip link more menu ----------------------*/
+	var max_link = 5;
+	var moretext= "{{ text_more }}";
+	var items = $('.header_style1 #tttoplink_block ul li');
+	var surplus = items.slice(max_link, items.length);
+	surplus.wrapAll('<li class="more_menu tttoplink"><ul class="top-link clearfix">');
+	$('.more_menu').prepend('<a href="#" class="level-top">'+moretext+'</a>');
+	$('.more_menu').mouseover(function(){
+	$(this).children('ul').addClass('shown-link');
+	})
+	$('.more_menu').mouseout(function(){
+	$(this).children('ul').removeClass('shown-link');
+	});
+	
+		jQuery("body #tttoplink_block ul.block_content li.more_menu").hover(function() {
+        jQuery("body").addClass("top_hover");
+    }, function() {
+        jQuery("body").removeClass("top_hover");
+    });
+
+/* ---------------- End Templatetrip link more menu ----------------------*/
+});
+--></script>

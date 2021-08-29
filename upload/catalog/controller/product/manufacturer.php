@@ -2,8 +2,12 @@
 class ControllerProductManufacturer extends Controller {
 	public function index() {
 		$this->load->language('product/manufacturer');
+		
+		$this->document->addScript('catalog/view/javascript/TemplateTrip/tt-load-more.js');
 
 		$this->load->model('catalog/manufacturer');
+
+		$this->load->model('tool/image');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -80,7 +84,7 @@ class ControllerProductManufacturer extends Controller {
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -102,6 +106,13 @@ class ControllerProductManufacturer extends Controller {
 			'text' => $this->language->get('text_brand'),
 			'href' => $this->url->link('product/manufacturer')
 		);
+		
+		// ttthemesettings
+		$this->load->model('setting/setting');
+		$data['effects']=$this->model_setting_setting->getSettingValue('module_tt_themesettings_effects');
+		$data['page_filter']=$this->model_setting_setting->getSettingValue('module_tt_themesettings_page_filter');
+		$data['product_column']=$this->model_setting_setting->getSettingValue('module_tt_themesettings_product_column');
+		$data['grid_view']=$this->model_setting_setting->getSettingValue('module_tt_themesettings_grid_view');
 
 		$manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($manufacturer_id);
 
@@ -148,6 +159,15 @@ class ControllerProductManufacturer extends Controller {
 			);
 
 			$product_total = $this->model_catalog_product->getTotalProducts($filter_data);
+			
+			/** Load Format Pagination **/
+			$data['ttl'] = $product_total;
+			$data['config_catalog_limit'] = $this->config->get('theme_' . $this->config->get('config_theme') . '_product_limit');
+			$data['category_data'] = $category_id;
+			$data['path'] = $this->request->get['path'];
+			$data['url_category'] = $this->url->link('extension/module/tt_load_more_pagination');
+			$data['page'] = $page;
+			$data['filter'] = $filter;
 
 			$results = $this->model_catalog_product->getProducts($filter_data);
 
@@ -164,16 +184,20 @@ class ControllerProductManufacturer extends Controller {
 					$price = false;
 				}
 
-				if (!is_null($result['special']) && (float)$result['special'] >= 0) {
+				if ((float)$result['special']) {
 					$special = $this->currency->format($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
-					$tax_price = (float)$result['special'];
 				} else {
 					$special = false;
-					$tax_price = (float)$result['price'];
 				}
-	
+				
+				if ((float)$result['special']) {
+					$data['percent'] = round(100 - ($result['special']*100/$result['price']));
+				} else {
+					$data['percent'] = false;
+				}
+
 				if ($this->config->get('config_tax')) {
-					$tax = $this->currency->format($tax_price, $this->session->data['currency']);
+					$tax = $this->currency->format((float)$result['special'] ? $result['special'] : $result['price'], $this->session->data['currency']);
 				} else {
 					$tax = false;
 				}
@@ -184,16 +208,24 @@ class ControllerProductManufacturer extends Controller {
 					$rating = false;
 				}
 
+				$to_date = $this->model_catalog_product->getProductSpecialData($result['product_id']);
+				$to_date = $to_date['date_end'];
+
 				$data['products'][] = array(
 					'product_id'  => $result['product_id'],
 					'thumb'       => $image,
 					'name'        => $result['name'],
 					'description' => utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('theme_' . $this->config->get('config_theme') . '_product_description_length')) . '..',
 					'price'       => $price,
+					'percent'     => $data['percent'],
+					'to_date'     => $to_date,
 					'special'     => $special,
 					'tax'         => $tax,
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $result['rating'],
+					'product_quantity'  => $result['quantity'],
+					'product_stock'  => $result['stock_status'],
+					'text_stock'  => $this->language->get('text_stock'),
 					'href'        => $this->url->link('product/product', 'manufacturer_id=' . $result['manufacturer_id'] . '&product_id=' . $result['product_id'] . $url)
 				);
 			}
@@ -312,17 +344,17 @@ class ControllerProductManufacturer extends Controller {
 
 			// http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
 			if ($page == 1) {
-				$this->document->addLink($this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id']), 'canonical');
+			    $this->document->addLink($this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'], true), 'canonical');
 			} else {
-				$this->document->addLink($this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . '&page=' . $page), 'canonical');
+				$this->document->addLink($this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . $url . '&page='. $page, true), 'canonical');
 			}
 			
 			if ($page > 1) {
-				$this->document->addLink($this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . (($page - 2) ? '&page=' . ($page - 1) : '')), 'prev');
+			    $this->document->addLink($this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . $url . '&page='. (($page - 2) ? '&page='. ($page - 1) : ''), true), 'prev');
 			}
 
 			if ($limit && ceil($product_total / $limit) > $page) {
-				$this->document->addLink($this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . '&page=' . ($page + 1)), 'next');
+			    $this->document->addLink($this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . $url . '&page='. ($page + 1), true), 'next');
 			}
 
 			$data['sort'] = $sort;
@@ -337,6 +369,11 @@ class ControllerProductManufacturer extends Controller {
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
+			
+			/** Load Format Pagination **/
+			$this->load->language('extension/module/tt_load_more_pagination');
+			$data['load_more'] = $this->language->get('load_more');
+			$data['show_product'] = $this->language->get('show_product');
 
 			$this->response->setOutput($this->load->view('product/manufacturer_info', $data));
 		} else {

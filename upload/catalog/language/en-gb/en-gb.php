@@ -10,7 +10,7 @@ $_['decimal_point']         = '.';
 $_['thousand_point']        = ',';
 
 // Text
-$_['text_home']             = '<i class="fa fa-home"></i>';
+$_['text_home']             = '<i class="material-icons">home</i>';
 $_['text_yes']              = 'Yes';
 $_['text_no']               = 'No';
 $_['text_none']             = ' --- None --- ';
@@ -26,7 +26,7 @@ $_['button_back']           = 'Back';
 $_['button_continue']       = 'Continue';
 $_['button_cart']           = 'Add to Cart';
 $_['button_cancel']         = 'Cancel';
-$_['button_compare']        = 'Compare this Product';
+$_['button_compare']        = 'Add to compare';
 $_['button_wishlist']       = 'Add to Wish List';
 $_['button_checkout']       = 'Checkout';
 $_['button_confirm']        = 'Confirm Order';
@@ -56,7 +56,9 @@ $_['button_reward']         = 'Apply Points';
 $_['button_quote']          = 'Get Quotes';
 $_['button_list']           = 'List';
 $_['button_grid']           = 'Grid';
+$_['button_sort']           = 'Short';
 $_['button_map']            = 'View Google Map';
+$_['button_quickview']            = 'Quick View';
 
 // Error
 $_['error_exception']       = 'Error Code(%s): %s in %s on line %s';

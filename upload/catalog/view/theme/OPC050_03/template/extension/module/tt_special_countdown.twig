@@ -1,0 +1,140 @@
+<div class="tt-special-countdown">
+<div class="ttspecial-products-innner">
+<div class="tt-countdown-carousel list-products">
+<div class="box-heading"><h3>{{ heading_title }}</h3></div>
+<div class="ttcountdown-inner">
+<div class="special-countdown products-carousel row">
+	{% for product in products %}
+	{% if product.to_date  !=  '0000-00-00' %}
+		<div class="product-layouts">
+    	<div class="product-thumb transition">
+			<div class="countdown-images col-sm-12 col-xs-12">
+				<div class="special-image">
+						<a href="{{ product.href }}">
+							<img class="image_thumb" src="{{ product.thumb }}" title="{{ product.name }}" alt="{{ product.name }}" />
+						</a>
+				{% if product.product_quantity ==0 %}
+				<div class="btn-outofcart {% if product.product_quantity==0 %} {{ "disabled" }} {% endif %}">
+					{{ "<span class=\"out of stock\">"~product.product_stock }}</span>			
+				</div>
+				{% endif %}
+					<div class="countdown-labele">
+					  <span class="hot">{{ text_hot }}</span> 
+					 <span class="percent">-{{ product.percent }}%</span>
+					</div>
+				</div>
+				<div class="button-group">
+					<button class="btn-cart {% if product.product_quantity<=0 %} {{ "disabled" }} {% endif %}" type="button" title="{% if product.product_quantity <=0 %}{{ product.product_stock }}{% else %}{{ button_cart }}{% endif %}" onclick="{% if product.product_quantity <=0 %}{% else %}cart.add('{{ product.product_id }}'){% endif %}"{% if product.product_quantity <=0 %}{{ "" }} 
+				{% endif %}>
+					 {% if product.product_quantity <=0 %}
+						{{ "<i class=\"material-icons\">shopping_cart</i><span class=\"out of stock\">"~product.product_stock }}
+						{% else %} 
+						{{ "<i class=\"material-icons\">shopping_cart</i> <span class=\"hidden-xs hidden-sm hidden-md\">"~button_cart }}
+					{% endif %}
+					</span>
+					</button>
+			  	<button class="btn-wishlist" title="{{ button_wishlist }}"  onclick="wishlist.add('{{ product.product_id }}');">
+				<i class="material-icons icon-wishlist">favorite_border</i>
+				<span title="{{ button_wishlist }}">{{ button_wishlist }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+				<button class="btn-compare" title="{{ button_compare }}"  onclick="compare.add('{{ product.product_id }}');">
+				<i class="material-icons icon-exchange">sync</i>
+				<span title="{{ button_compare }}">{{ button_compare }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+				<button class="btn-quickview" type="button" title="{{ button_quickview }}" onclick="tt_quickview.ajaxView('{{ product.href }}')">			
+				<i class="material-icons quick_view_icon">visibility</i>
+				<span title="{{ button_quickview }}">{{ button_quickview }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+			  </div>
+				<div class="additional-images-container">
+					{% if product.images %}
+						<div class="special-additional-images">
+							{% for image in product.images %}
+								<div class="image-additional">
+								<img src="{{ image.thumb }}" title="{{ heading_title }}" data-image-large-src="{{ image.large }}" alt="{{ heading_title }}" />
+								</div>
+							{% endfor %}
+						</div>
+					{% endif %}
+				</div>
+			</div>
+			<div class="thumb-description col-sm-12 col-xs-12">
+				<div class="product-description">
+				<div class="caption">
+					<h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+					
+		{% if product.rating %}
+			<div class="rating">
+		  {% else %}
+			<div class="rating no-rating">
+		  {% endif %}
+          {% for i in 1..5 %}
+          {% if product.rating < i %}
+          <span class="fa-stack"><i class="material-icons star_off">star_border</i></span>
+		  {% else %}
+		  <span class="fa-stack"><i class="material-icons star_on">star</i></span>
+		  {% endif %}
+		   {% endfor %}
+        </div>
+
+                <p class="description">{{ product.description }}</p>
+
+					{% if product.price %}
+						<div class="price">
+						  {% if not product.special %}
+						  	{{ product.price }}
+						  {% else %}
+							  <span class="price-new">{{ product.special }}</span> 
+							  <span class="price-old">{{ product.price }}</span>
+						  {% endif %}
+						  {% if product.tax %}
+						  	<span class="price-tax">{{ text_tax }} {{ product.tax }}</span>
+						  {% endif %}
+						</div>
+					{% endif %}
+				</div>
+			  
+					<div class="ttqtyprogress">
+					<div class="QuantityAvailable">{% if product.product_quantity <=0 %}{{product_unavailable}}:{% else %}{{product_available}}:{% endif %}</div>
+					<div class="quantity">{{product.product_quantity}}</div>
+					<div class="progress">
+					<div class="progress-bar" role="progressbar"></div>
+					</div>
+					</div>
+
+					<div class="special-countdown">
+						<div class="countmain">
+							<div class="count-title">Hurry up!</div>
+							<div class="count-desc">Offer end in:</div>
+						</div>
+						{% if product.to_date !=  '0000-00-00' %}
+						{% set date_time = product.to_date|date('Y-m-d') %}
+							<div id="countdown_{{ product.product_id }}" class="item-countdown" data-date="{{ date_time }}"></div>
+						{% endif %}
+					</div>
+
+				</div>
+			</div>
+			<script>
+				jQuery(document).ready(function($){
+				$(".item-countdown").each(function(){
+				var date = $(this).data('date');
+				$(this).lofCountDown({
+					TargetDate:date,
+					DisplayFormat:"<div>%%D%% <span>{{ text_days}}</span></div><div>%%H%% <span>{{ text_hours }}</span></div><div>%%M%% <span>{{ text_minutes }}</span></div><div>%%S%% <span>{{ text_seconds }}</span></div>"
+				});
+				});
+				});   
+			</script>
+		</div>
+		</div>
+		{% endif %}
+	{% endfor %}
+</div>
+</div>
+</div>
+</div>
+</div>

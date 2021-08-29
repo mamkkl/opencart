@@ -1,0 +1,116 @@
+/* newsletter popup */
+#popup2{
+	left: 0;
+	right: auto;
+}
+.newslatter-img {
+  float: left;
+}
+.newslatter-img::after {
+	left: -20px;
+	right: auto;
+}
+.b-close::before {
+	left: 3px;
+}
+/* newsllter */
+#dialog-normal .newletter-title {
+	float: right;
+	text-align: right;
+}
+.newletter-popup .box {
+	float: right;
+	text-align: right;
+}
+.newletter-popup #boxes .newletter-title h2::after {
+	left: auto;
+	right: 0;
+}
+#dialog-normal .newleter-content{    
+	float:left;
+}
+.newslatterpopup-content > span {
+	float: right;
+}
+#subscribe_email {
+	padding: 0 15px 0 120px;
+}
+.newletter-subscribe {
+	float: right;
+}
+#dialog-normal .newletter-title::before {
+	float: right;
+	right: 0;
+	left: auto;
+}
+#dialog-normal .newletter-title::after {
+	float: right;
+	right: 0;
+	left: auto;
+}
+#dialog-normal .newletter-desc {
+	float: right;
+}
+#subscribe .btn {
+	left: 3px;
+	right: auto;
+}
+#dialog-normal .newletter-title h2 {
+	float: right;
+	text-align: right;
+	padding: 0 50px 0 0;
+}
+#dialog-normal .newletter-title h2::before {
+	right: 0;
+	left: auto;
+}
+@media(max-width:991px){
+	#dialog-normal .newletter-title {
+		float: none;
+		text-align: center;
+	}
+	.newletter-subscribe {
+		float: none;
+	}
+	#dialog-normal .newletter-title .tt-title::before {
+	  	float: none;
+	}
+	#dialog-normal .newleter-content {
+	  	float: none;
+	}
+	#dialog-normal .newletter-title h2 {
+		float: none;
+		text-align: center;
+	}
+}
+@media(max-width:600px){
+	#popup2 {
+		left: 0;
+		right: auto;
+	}
+}
+@media(max-width:480px){
+	#subscribe_email {
+		padding: 0 15px 0 50px;
+	}
+	#dialog-normal .newletter-title h2 {
+		padding: 40px 0 0;
+	}
+	#dialog-normal .newletter-title::before {
+		right: 0;
+		left: 0;
+	}
+	#dialog-normal .newletter-title::after {
+		right: 0;
+		left: 0;
+	}
+	#dialog-normal .newletter-title .tt-title::before {
+		left: 0;
+		right: 0;
+	}
+	#dialog-normal .newletter-title {
+		float: none;
+		padding: 0;
+		text-align: center;
+	}
+}

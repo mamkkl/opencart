@@ -1,0 +1,104 @@
+<header>
+<div class="header">
+<div id="top">
+	<div class="container">
+		<div class="header-top-left col-sm-6">
+			{% if header_top %}
+				<div class="header-top-cms">
+				{{ header_top }}
+				</div>
+			{% endif %}
+		</div>
+		<div class="header-top-right col-sm-6">
+			 <div class="user-info">
+	  		  <div class="dropdown"><a href="{{ account }}" title="{{ text_user }}" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons user">perm_identity</i>
+			  <span class="ttuserheading">{{ text_user }}</span><i class="material-icons expand-more">expand_more</i></a>
+			  <ul class="dropdown-menu dropdown-menu-right account-link-toggle">
+				{% if logged %}
+				<li><a href="{{ account }}"><i class='material-icons ma-user'>perm_identity</i> {{ text_account }}</a></li>
+				<li><a href="{{ order }}"><i class='material-icons calendar-today'>calendar_today</i> {{ text_order }}</a></li>
+				<li><a href="{{ transaction }}"><i class='material-icons credit-card'>credit_card</i> {{ text_transaction }}</a></li>
+				<li><a href="{{ download }}"><i class='material-icons save-alt'>save_alt</i> {{ text_download }}</a></li>
+				<li><a href="{{ compare }}" id="compare-total" title="{{ text_compare }}">
+				<i class="material-icons icon-compare">repeat</i> <span class="hidden-sm hidden-md">{{ text_compare }}</span></a></li>
+				<li><a href="{{ wishlist }}" id="wishlist-total" title="{{ text_wishlist }}"><i class="material-icons favorite">favorite_border</i> <span class="hidden-sm hidden-md">{{ text_wishlist }}</span></a></li>
+				<li><a href="{{ logout }}"><i class="material-icons">lock_open</i> {{ text_logout }}</a></li>
+				
+				{% else %}
+				<li><a href="{{ login }}"><i class="material-icons">lock_outline</i> {{ text_login }}</a></li>
+				<li><a href="{{ register }}"><i class='material-icons reg-person'>perm_identity</i> {{ text_register }}</a></li>
+				<li><a href="{{ compare }}" id="compare-total" title="{{ text_compare }}">
+				<i class="material-icons icon-compare">repeat</i> <span class="hidden-sm hidden-md">{{ text_compare }}</span></a></li>
+				<li><a href="{{ wishlist }}" id="wishlist-total" title="{{ text_wishlist }}"><i class="material-icons favorite">favorite_border</i> <span class="hidden-sm hidden-md">{{ text_wishlist }}</span></a></li>
+
+				{% endif %}
+			  </ul>
+			  </div>
+			</div>
+			<div class="ttlanguage">{{ language }}</div>
+			<div class="ttcurrency">{{ currency }}</div>
+		</div>
+	</div>
+</div>
+
+<div class="full-header">
+  <div class="container">
+  		<div class="header-left">
+        <div id="logo">
+			{% if logo %}
+				<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" /></a>
+			{% else %}
+          		<h1><a href="{{ home }}">{{ name }}</a></h1>
+          {% endif %}
+	  </div>
+	  <div id="mobile-logo">
+			{% if mobile_logo %}
+				<a href="{{ home }}"><img src="{{ mobile_logo }}" title="{{ name }}" alt="{{ name }}" class="mobile-logo" /></a>
+			{% else %}
+          		<h1><a href="{{ home }}">{{ name }}</a></h1>
+          {% endif %}
+      </div>
+    </div>
+		
+		<div class="header-right">
+			{% if header_right %}
+				<div class="header-right-cms">
+				{{ header_right }}
+				</div>
+			{% endif %}
+			<div class="cart">{{ cart }}</div>
+		</div>	
+		<div class="search col-sm-6">{{ search }}</div>
+  </div>
+  <div class="full-bottom">
+	  <div class="container">
+	  {% if header_left %}
+		<div class="header-left">
+		{{ header_left }}
+		</div>
+	  {% endif %}
+		<div id="tttoplink_block">
+			<h3 class="title_block ">Best In Offer</h3>
+			<ul id="tt_toplink" class="block_content">
+				<li class="tttoplink tthome"><a title="home" href="#">Home</a></li>
+				<li class="tttoplink"><a href="{{ manufacturer }}">{{ text_manufacturers }}</a></li>
+				<li class="tttoplink"><a href="{{ voucher }}">{{ text_voucher }}</a></li>
+				<li class="tttoplink"><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+				<li class="tttoplink"><a href="{{ contact }}">{{ text_contact }}</a></li>
+				<li class="tttoplink"><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+			</ul>
+		</div>
+	  </div>
+  </div>
+<div class="header-bottom-block">
+<div class="container">
+	{% if header_bottom %}
+		<div class="header-bottom">
+		{{ header_bottom }}
+		</div>
+	 {% endif %}	
+</div>
+	 
+  </div>
+  </div>
+</header>

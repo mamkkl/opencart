@@ -213,6 +213,7 @@ class ModelCatalogProduct extends Model {
 			'pd.name',
 			'p.model',
 			'ps.price',
+			'ps.date_end',
 			'rating',
 			'p.sort_order'
 		);
@@ -526,7 +527,24 @@ class ModelCatalogProduct extends Model {
 
 		return $query->rows;
 	}
+		 /*Start countdown special modification*/
+	public function getProductSpecialData($product_id) {
+				if ($this->customer->isLogged()) {
+					$customer_group_id = $this->customer->getGroupId();
+				} else {
+					$customer_group_id = $this->config->get('config_customer_group_id');
+				}
 
+				$query = $this->db->query("SELECT `date_end` FROM " . DB_PREFIX . "product_special WHERE product_id = '" . (int)$product_id . "' AND customer_group_id = '" . (int)$customer_group_id . "' AND ((date_start = '0000-00-00' OR date_start < NOW()) AND (date_end = '0000-00-00' OR date_end > NOW())) ORDER BY priority ASC, price ASC LIMIT 1");
+
+				if ($query->num_rows) {
+					return $query->row;
+				} else {
+					return FALSE;
+				}
+	}
+	
+    /*End countdown special modification*/
 	public function getTotalProductSpecials() {
 		$query = $this->db->query("SELECT COUNT(DISTINCT ps.product_id) AS total FROM " . DB_PREFIX . "product_special ps LEFT JOIN " . DB_PREFIX . "product p ON (ps.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW()) AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW()))");
 

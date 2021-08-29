@@ -1,0 +1,102 @@
+/*------------------------------------ Blog HomePage CSS Start ---------------------------------------------*/
+	#ttsmartblog-carousel .blog-content .comment .fa-comments-o {
+		padding: 0 0 0 5px;
+	}
+	.comment > a {
+		float: right;
+	}
+	#blog_latest_new_home .title_block {
+	  float: right;
+	}
+	#module-ttblog-category #ttblogcat .blog-item .ttblogpost .out-content-blog .article-header .blog-tool > span::after {
+		left: 5px;
+		right: auto;
+	}
+	#module-ttblog-category #ttblogcat .blog-item .ttblogpost .out-content-blog .article-header .blog-tool > span {
+		padding: 0 0 0 20px;
+	}
+	#blog_latest_new_home .block_content ul#ttsmartblog-carousel li .blog-content .blog-sub-content {
+		float: right;
+		text-align: right;
+	}
+	#blog_latest_new_home .block_content ul#ttsmartblog-carousel li .blog-content .blog-sub-content .blog-date {
+		right: 10px;
+		left: auto;
+	}
+	#blog_latest_new_home .block_content ul#ttsmartblog-carousel li .blog-content .blog-sub-content .read-more {
+		float: right;
+	}
+	#ttsmartblog-carousel .comment {
+		float: right;
+	}
+	#ttsmartblog-carousel .meta_button {
+		float: right;
+	}
+	#blog_latest_new_home .block_content ul#ttsmartblog-carousel li .blog-content .blog-sub-content .read-more::after {
+		padding: 0 0 0 5px;
+		content: "\e5cb";
+		float: left;
+	}
+	@media (max-width: 767px) {
+		#blog_latest_new_home .block_content #ttsmartblog-carousel li .blog-content .blog-sub-content {
+			padding: 10px 0 0;
+		}
+	}
+
+/*------------------------------------ Blog HomePage CSS Start ---------------------------------------------*/
+
+
+/*-------------------------------------- Blog Category Page CSS Start -------------------------------------*/
+	#module-ttblog-category #ttblogcat .blog-item .ttblogpost .out-content-blog {
+		float: right;
+	}
+	#module-ttblog-category #ttblogcat .blog-item .ttblogpost .article-content {
+		float: right;
+	}
+	#module-ttblog-category #ttblogcat .blog-item .ttblogpost .out-content-blog .sdsreadMore {
+		float: right;
+	}
+
+/*-------------------------------------- Blog Category Page CSS End -------------------------------------*/
+/*-------------------------------------- Blog style 1 CSS Start -------------------------------------*/
+#blog_latest_new_home.blog_style2 .block_content ul#ttsmartblog-carousel li .blog-content .blog_image_holder .bloglinks {
+	right: -400px;
+	top: -200px;
+	left: auto;
+}
+#blog_latest_new_home.blog_style2 .block_content ul#ttsmartblog-carousel li:hover .blog-content .blog_image_holder .bloglinks {
+	right: 0;
+	top: 0;
+	left: 0;
+}
+#blog_latest_new_home.blog_style2 .block_content ul#ttsmartblog-carousel li .blog-content .blog-date {
+	left: auto;
+	right: -1px;
+}
+#blog_latest_new_home.blog_style2 .block_content ul#ttsmartblog-carousel li .blog-content .blog-sub-content {
+	float: left;
+}
+#blog_latest_new_home.blog_style2 .block_content ul#ttsmartblog-carousel li .blog-content .blog_image_holder {
+	float: right;
+}
+/*-------------------------------------- Blog style 1 CSS End -------------------------------------*/
+/*-------------------------------------- Blog style 2 CSS Start -------------------------------------*/
+#blog_latest_new_home.blog_style3 .block_content ul#ttsmartblog-carousel li .blog-content .blog-sub-content {
+	text-align: right;
+}
+#blog_latest_new_home.blog_style3 .block_content ul#ttsmartblog-carousel li .blog-content .blog_image_holder .bloglinks {
+	left: 0;
+	right: auto;
+}
+#blog_latest_new_home.blog_style3 .block_content ul#ttsmartblog-carousel li:hover .blog-content .blog_image_holder .bloglinks {
+	left: 20px;
+	right: auto;
+}
+@media (max-width: 991px) {
+	#blog_latest_new_home.blog_style3 .block_content ul#ttsmartblog-carousel li .blog-content .blog_image_holder .bloglinks, 
+	#blog_latest_new_home.blog_style3 .block_content ul#ttsmartblog-carousel li:hover .blog-content .blog_image_holder .bloglinks {
+		left: 0;
+		right: 0;
+	}
+}
+/*-------------------------------------- Blog style 2 CSS End -------------------------------------*/

@@ -16,6 +16,17 @@ $_['text_content_bottom'] = 'Content Bottom';
 $_['text_column_left']    = 'Column Left';
 $_['text_column_right']   = 'Column Right';
 
+$_['text_header_module']  = 'TT Header Custom position of the modules';
+$_['text_header_top']     = 'Header Top';
+$_['text_header_left']    = 'Header Left';
+$_['text_header_right']   = 'Header Right';
+$_['text_header_bottom']  = 'Header Bottom';
+
+$_['text_footer_module']  = 'TT Footer Custom position of the modules';
+$_['text_footer_top']     = 'Footer Top';
+$_['text_footer_left']    = 'Footer Left';
+$_['text_footer_right']   = 'Footer Right';
+$_['text_footer_bottom']  = 'Footer Bottom';
 // Column
 $_['column_name']         = 'Layout Name';
 $_['column_action']       = 'Action';

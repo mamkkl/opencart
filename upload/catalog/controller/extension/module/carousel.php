@@ -5,7 +5,8 @@ class ControllerExtensionModuleCarousel extends Controller {
 
 		$this->load->model('design/banner');
 		$this->load->model('tool/image');
-		
+		$this->load->language('extension/module/carousel');
+
 		$this->document->addStyle('catalog/view/javascript/jquery/swiper/css/swiper.min.css');
 		$this->document->addStyle('catalog/view/javascript/jquery/swiper/css/opencart.css');
 		$this->document->addScript('catalog/view/javascript/jquery/swiper/js/swiper.jquery.js');
@@ -14,6 +15,7 @@ class ControllerExtensionModuleCarousel extends Controller {
 
 		$results = $this->model_design_banner->getBanner($setting['banner_id']);
 
+		$data['brand_heading_title'] = $this->language->get('brand_heading_title');
 		foreach ($results as $result) {
 			if (is_file(DIR_IMAGE . $result['image'])) {
 				$data['banners'][] = array(

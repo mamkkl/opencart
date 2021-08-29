@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<!--[if IE 8 ]><html dir="{{ direction }}" lang="{{ lang }}" class="ie8"><![endif]-->
+<!--[if IE 9 ]><html dir="{{ direction }}" lang="{{ lang }}" class="ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html dir="{{ direction }}" lang="{{ lang }}">
+<!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{{ title }}</title>
+<base href="{{ base }}" />
+{% if description %}
+<meta name="description" content="{{ description }}" />
+{% endif %} 
+{% if keywords %}
+<meta name="keywords" content="{{ keywords }}" />
+{% endif %}
+<script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js"></script>
+<script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js"></script>
+
+<link href='https://fonts.googleapis.com/css?family=Mulish:300,300i,400,400i,600,600i,700,700i,800,800i,900,900i' rel='stylesheet' type='text/css'>
+<!--<link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />-->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!--<link href="catalog/view/theme/{{ theme_path }}/stylesheet/TemplateTrip/bootstrap.min.css" rel="stylesheet" media="screen" />-->
+
+<link href="catalog/view/javascript/jquery/owl-carousel/owl.carousel.min.css" rel="stylesheet" media="screen" />
+<link href="catalog/view/javascript/jquery/owl-carousel/owl.theme.default.min.css" rel="stylesheet" media="screen" />
+<link href="catalog/view/theme/OPC050_03/stylesheet/TemplateTrip/bootstrap.min.css" rel="stylesheet" media="screen" />
+<link href="catalog/view/theme/OPC050_03/stylesheet/stylesheet.css" rel="stylesheet">
+<link href="catalog/view/theme/OPC050_03/stylesheet/TemplateTrip/animate.css" rel="stylesheet" type="text/css" />
+<link href="catalog/view/theme/OPC050_03/stylesheet/TemplateTrip/ttblogstyle.css" rel="stylesheet" type="text/css" />
+<link href="catalog/view/theme/OPC050_03/stylesheet/TemplateTrip/ttcountdown.css" rel="stylesheet" type="text/css" />
+<link href="catalog/view/theme/OPC050_03/stylesheet/TemplateTrip/category-feature.css" rel="stylesheet" type="text/css" />
+<link href="catalog/view/theme/OPC050_03/stylesheet/TemplateTrip/newsletter.css" rel="stylesheet" type="text/css" />
+<link href="catalog/view/theme/OPC050_03/stylesheet/TemplateTrip/menu.css" rel="stylesheet" type="text/css" />
+<link href="catalog/view/theme/OPC050_03/stylesheet/TemplateTrip/ttcolumn.css" rel="stylesheet" type="text/css" />
+<link href="catalog/view/theme/OPC050_03/stylesheet/TemplateTrip/ttheader-footer-setting.css" rel="stylesheet" type="text/css" />
+<link href="catalog/view/theme/OPC050_03/stylesheet/TemplateTrip/slick-slider.css" rel="stylesheet" type="text/css" />
+{% if direction=='rtl' %}
+	<link href="catalog/view/theme/OPC050_03/stylesheet/TemplateTrip/rtl.css" rel="stylesheet" type="text/css" />
+	<link href="catalog/view/theme/OPC050_03/stylesheet/TemplateTrip/ttblogstyle-rtl.css" rel="stylesheet" type="text/css" />
+	<link href="catalog/view/theme/OPC050_03/stylesheet/TemplateTrip/ttcountdown-rtl.css" rel="stylesheet" type="text/css" />
+	<link href="catalog/view/theme/OPC050_03/stylesheet/TemplateTrip/newsletter-rtl.css" rel="stylesheet" type="text/css" />
+{% endif %}
+<link href="catalog/view/theme/OPC050_03/stylesheet/TemplateTrip/lightbox.css" rel="stylesheet" type="text/css" />
+
+{% for style in styles %}
+<link href="{{ style.href }}" type="text/css" rel="{{ style.rel }}" media="{{ style.media }}" />
+{% endfor %}
+
+<script src="catalog/view/javascript/common.js"></script>
+
+<!-- TemplateTrip custom Theme JS START -->
+<script src="catalog/view/javascript/TemplateTrip/menu.js"></script>
+<script src="catalog/view/javascript/TemplateTrip/addonScript.js"></script>
+<script src="catalog/view/javascript/TemplateTrip/lightbox-2.6.min.js"></script>
+<script src="catalog/view/javascript/TemplateTrip/waypoints.min.js"></script>
+<script src="catalog/view/javascript/TemplateTrip/tt_quickview.js"></script>
+<script src="catalog/view/javascript/TemplateTrip/theia-sticky-sidebar.min.js"></script>
+<script src="catalog/view/javascript/TemplateTrip/bootstrap-notify.min.js"></script>
+<script src="catalog/view/javascript/TemplateTrip/ttcountdown.js"></script>
+<script src="catalog/view/javascript/jquery/owl-carousel/owl.carousel.min.js"></script>
+<script src="catalog/view/javascript/TemplateTrip/ttheader-footer-setting.js"></script>
+<script src="catalog/view/javascript/TemplateTrip/ttcolumn.js"></script>
+<script src="catalog/view/javascript/TemplateTrip/jquery.bpopup.min.js"></script>
+<script src="catalog/view/javascript/TemplateTrip/masonry.pkgd.min.js"></script>
+<script src="catalog/view/javascript/TemplateTrip/imagesloaded.pkgd.min.js"></script>
+
+<!-- TemplateTrip custom Theme JS END -->
+
+{% for link in links %}
+<link href="{{ link.href }}" rel="{{ link.rel }}" />
+{% endfor %}
+
+{% for script in scripts %}
+<script src="{{ script }}"></script>
+{% endfor %}
+
+{% for analytic in analytics %}
+{{ analytic }}
+{% endfor %}
+</head>
+
+<body class="{{ class }} {{ header_layouts }} {{ button_effects }} {{ page_load }} {{ product_layouts }} {{ responsive }} {{ product_column }} {{ page_filter }} {{ grid_view }} {{ product_column }}">
+<div id="page">
+<div class="ttloading-bg"></div>
+<div id="header-sticky" class="header-sticky {{ header_sticky }}">
+{% if header_layouts == 'header_default' %}
+<div id="header-default" class="{{ header_layouts }} header-layout">
+<header>
+<div class="header">
+<div class="full-header">
+  <div class="container">
+  		<div class="header-left">
+        <div id="logo">
+			{% if logo %}
+				<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" /></a>
+			{% else %}
+          		<h1><a href="{{ home }}">{{ name }}</a></h1>
+          {% endif %}
+	   </div>
+	   <div id="mobile-logo">
+			{% if mobile_logo %}
+				<a href="{{ home }}"><img src="{{ mobile_logo }}" title="{{ name }}" alt="{{ name }}" class="mobile-logo" /></a>
+			{% else %}
+          		<h1><a href="{{ home }}">{{ name }}</a></h1>
+          {% endif %}
+      </div>
+    </div>
+		<div class="search col-sm-6">{{ search }}</div>
+		<div class="header-right">
+			  {% if header_right %}
+				<div class="header-right-cms">
+				{{ header_right }}
+				</div>
+			 {% endif %}
+			  <div class="user-info">
+	  <div class="dropdown"><a href="{{ account }}" title="{{ text_user }}" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons user">perm_identity</i>
+	<span class="ttuserheading">{{ text_user }}</span><i class="material-icons expand-more">expand_more</i></a>
+			  <ul class="dropdown-menu dropdown-menu-right account-link-toggle">
+				{% if logged %}
+				<li><a href="{{ account }}"><i class='material-icons ma-user'>perm_identity</i> {{ text_account }}</a></li>
+				<li><a href="{{ order }}"><i class='material-icons calendar-today'>calendar_today</i> {{ text_order }}</a></li>
+				<li><a href="{{ transaction }}"><i class='material-icons credit-card'>credit_card</i> {{ text_transaction }}</a></li>
+				<li><a href="{{ download }}"><i class='material-icons save-alt'>save_alt</i> {{ text_download }}</a></li>
+				<li><a href="{{ compare }}" id="compare-total" title="{{ text_compare }}">
+				<i class="material-icons icon-compare">repeat</i> <span class="hidden-sm hidden-md">{{ text_compare }}</span></a></li>
+				<li><a href="{{ wishlist }}" id="wishlist-total" title="{{ text_wishlist }}"><i class="material-icons favorite">favorite_border</i> <span class="hidden-sm hidden-md">{{ text_wishlist }}</span></a></li>
+				<li><a href="{{ logout }}"><i class="material-icons">lock_open</i> {{ text_logout }}</a></li>
+				<li class="ttlanguage">{{ language }}</li>
+				<li class="ttcurrency">{{ currency }}</li>
+				{% else %}
+				<li><a href="{{ login }}"><i class="material-icons">lock_outline</i> {{ text_login }}</a></li>
+				<li><a href="{{ register }}"><i class='material-icons reg-person'>perm_identity</i> {{ text_register }}</a></li>
+				<li><a href="{{ compare }}" id="compare-total" title="{{ text_compare }}">
+				<i class="material-icons icon-compare">repeat</i> <span class="hidden-sm hidden-md">{{ text_compare }}</span></a></li>
+				<li><a href="{{ wishlist }}" id="wishlist-total" title="{{ text_wishlist }}"><i class="material-icons favorite">favorite_border</i> <span class="hidden-sm hidden-md">{{ text_wishlist }}</span></a></li>
+				<li class="ttlanguage">{{ language }}</li>
+				<li class="ttcurrency">{{ currency }}</li>
+				{% endif %}
+			  </ul>
+			  </div>
+			</div>
+			  <div class="cart">{{ cart }}</div>
+		</div>	
+  </div>
+  <div class="full-bottom">
+	  <div class="container">
+		{% if header_left %}
+		<div class="header-left">
+			{{ header_left }}
+		</div>
+	    {% endif %}
+		<div id="tttoplink_block">
+					<ul id="tt_toplink" class="block_content">
+						<li class="tttoplink tthome"><a title="home" href="#">Home</a></li>
+						<li class="tttoplink"><a href="{{ manufacturer }}">{{ text_manufacturers }}</a></li>
+						<li class="tttoplink"><a href="{{ voucher }}">{{ text_voucher }}</a></li>
+						<li class="tttoplink"><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+						<li class="tttoplink"><a href="{{ contact }}">{{ text_contact }}</a></li>
+						<li class="tttoplink"><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+						</ul>
+					</div>
+		</div>
+	  </div>
+  </div>
+<div class="header-bottom-block">
+<div class="container">
+	{% if header_bottom %}
+		<div class="header-bottom">
+		{{ header_bottom }}
+		</div>
+	 {% endif %}	
+	 </div>
+  </div>
+  </div>
+</header>
+</div>
+{% elseif header_layouts == 'header_style1' %}
+	<div id="header-layout" class="{{ header_layouts }} header-layout">
+		{{ header1 }}
+	</div>
+{% elseif header_layouts == 'header_style2' %}
+	<div id="header-layout" class="{{ header_layouts }} header-layout">
+		{{ header2 }}
+	</div>
+{% else %}
+<header>
+<div class="header">
+<div class="full-header">
+  <div class="container">
+  		<div class="header-left">
+        <div id="logo">
+			{% if logo %}
+				<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" /></a>
+			{% else %}
+          		<h1><a href="{{ home }}">{{ name }}</a></h1>
+          {% endif %}
+      </div>
+    </div>
+		<div class="search col-sm-6">{{ search }}</div>
+		<div class="header-right">
+				  <div class="user-info">
+		  <div class="dropdown"><a href="{{ account }}" title="{{ text_user }}" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons user">perm_identity</i>
+ <span class="ttuserheading">{{ text_user }}</span><i class="material-icons expand-more">expand_more</i></a>
+				  <ul class="dropdown-menu dropdown-menu-right account-link-toggle">
+					{% if logged %}
+					<li><a href="{{ account }}"><i class='material-icons ma-user'>perm_identity</i> {{ text_account }}</a></li>
+					<li><a href="{{ order }}"><i class='material-icons calendar-today'>calendar_today</i> {{ text_order }}</a></li>
+					<li><a href="{{ transaction }}"><i class='material-icons credit-card'>credit_card</i> {{ text_transaction }}</a></li>
+					<li><a href="{{ download }}"><i class='material-icons save-alt'>save_alt</i> {{ text_download }}</a></li>
+					<li><a href="{{ compare }}" id="compare-total" title="{{ text_compare }}">
+				<i class="material-icons icon-compare">repeat</i> <span class="hidden-sm hidden-md">{{ text_compare }}</span></a></li>
+					<li><a href="{{ wishlist }}" id="wishlist-total" title="{{ text_wishlist }}"><i class="material-icons favorite">favorite_border</i> <span class="hidden-sm hidden-md">{{ text_wishlist }}</span></a></li>
+					<li><a href="{{ logout }}"><i class="material-icons">lock_open</i> {{ text_logout }}</a></li>
+					<li class="ttlanguage">{{ language }}</li>
+					<li class="ttcurrency">{{ currency }}</li>
+					{% else %}
+					<li><a href="{{ login }}"><i class="material-icons">lock_outline</i> {{ text_login }}</a></li>
+					<li><a href="{{ register }}"><i class='material-icons reg-person'>perm_identity</i> {{ text_register }}</a></li>
+					<li><a href="{{ compare }}" id="compare-total" title="{{ text_compare }}">
+						<i class="material-icons icon-compare">repeat</i> <span class="hidden-sm hidden-md">{{ text_compare }}</span></a></li>
+					<li><a href="{{ wishlist }}" id="wishlist-total" title="{{ text_wishlist }}"><i class="material-icons favorite">favorite_border</i> <span class="hidden-sm hidden-md">{{ text_wishlist }}</span></a></li>
+					<li class="ttlanguage">{{ language }}</li>
+					<li class="ttcurrency">{{ currency }}</li>
+					{% endif %}
+				  </ul>
+				  </div>
+				</div>
+				  <div class="cart">{{ cart }}</div>
+				</div>	
+  </div>
+  <div id="tttoplink_block">
+			 <ul id="tt_toplink" class="block_content">
+				  <li class="tttoplink tthome"><a title="home" href="#">Home</a></li>
+				  <li class="tttoplink"><a href="{{ manufacturer }}">{{ text_manufacturers }}</a></li>
+				  <li class="tttoplink"><a href="{{ voucher }}">{{ text_voucher }}</a></li>
+				  <li class="tttoplink"><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+				  <li class="tttoplink"><a href="{{ contact }}">{{ text_contact }}</a></li>
+				  <li class="tttoplink"><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+				</ul>
+			</div>
+  </div>
+<div class="header-bottom-block">
+<div class="container">
+	{% if header_bottom %}
+		<div class="header-bottom col-sm-3">
+		{{ header_bottom }}
+		</div>
+	 {% endif %}	
+	 </div>
+	 
+  </div>
+  </div>
+</header>
+{% endif %}
+</div>
+
+<div class="header-content-title">
+</div>
+
+<script><!--
+$(document).ready(function() {
+/* ---------------- start Templatetrip link more menu ----------------------*/
+	if (!$( "body" ).hasClass( "header_style1" )){
+	var max_link = 5;
+	var moretext= "{{ text_more }}";
+	var items = $('#tttoplink_block ul li');
+	var surplus = items.slice(max_link, items.length);
+	surplus.wrapAll('<li class="more_menu tttoplink"><ul class="top-link clearfix">');
+	$('.more_menu').prepend('<a href="#" class="level-top">'+moretext+'</a>');
+	$('.more_menu').mouseover(function(){
+	$(this).children('ul').addClass('shown-link');
+	})
+	$('.more_menu').mouseout(function(){
+	$(this).children('ul').removeClass('shown-link');
+	});
+	
+		jQuery("body #tttoplink_block ul.block_content li.more_menu").hover(function() {
+        jQuery("body").addClass("top_hover");
+    }, function() {
+        jQuery("body").removeClass("top_hover");
+    });
+	}
+
+/* ---------------- End Templatetrip link more menu ----------------------*/
+});
+--></script>

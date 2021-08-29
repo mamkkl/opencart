@@ -3,9 +3,27 @@ class ControllerExtensionModuleFeatured extends Controller {
 	public function index($setting) {
 		$this->load->language('extension/module/featured');
 
+		$data['heading_title3'] = $this->language->get('heading_title3');
+		
+		$data['text_days'] = $this->language->get('text_days');
+		$data['text_hours'] = $this->language->get('text_hours');
+		$data['text_minutes'] = $this->language->get('text_minutes');
+		$data['text_seconds'] = $this->language->get('text_seconds');
+		$data['text_expired'] = $this->language->get('text_expired');
+
+		$data['text_tax'] = $this->language->get('text_tax');
+
+		$data['button_cart'] = $this->language->get('button_cart');
+		$data['button_wishlist'] = $this->language->get('button_wishlist');
+		$data['button_compare'] = $this->language->get('button_compare');
+
 		$this->load->model('catalog/product');
 
 		$this->load->model('tool/image');
+		
+		// Product Image rollover Effects
+		$this->load->model('setting/setting');
+		$data['effects']=$this->model_setting_setting->getSettingValue('module_tt_themesettings_effects');
 
 		$data['products'] = array();
 
@@ -26,22 +44,35 @@ class ControllerExtensionModuleFeatured extends Controller {
 						$image = $this->model_tool_image->resize('placeholder.png', $setting['width'], $setting['height']);
 					}
 
+				$images = $this->model_catalog_product->getProductImages($product_id);
+				   
+				  if(isset($images[0]['image']) && !empty($images[0]['image'])){
+					  $images = $images[0]['image'];
+					  $thumb_swap = $this->model_tool_image->resize($images, $setting['width'], $setting['height']);
+				   } else {
+						$thumb_swap="";
+				   }
+
 					if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
 						$price = $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
 					} else {
 						$price = false;
 					}
 
-					if (!is_null($product_info['special']) && (float)$product_info['special'] >= 0) {
+					if ((float)$product_info['special']) {
 						$special = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
-						$tax_price = (float)$product_info['special'];
 					} else {
 						$special = false;
-						$tax_price = (float)$product_info['price'];
 					}
-		
+					
+					if ((float)$product_info['special']) {
+						$data['percent'] = round(100 - ($product_info['special']*100/$product_info['price']));
+					} else {
+						$data['percent'] = false;
+					}
+
 					if ($this->config->get('config_tax')) {
-						$tax = $this->currency->format($tax_price, $this->session->data['currency']);
+						$tax = $this->currency->format((float)$product_info['special'] ? $product_info['special'] : $product_info['price'], $this->session->data['currency']);
 					} else {
 						$tax = false;
 					}
@@ -52,14 +83,23 @@ class ControllerExtensionModuleFeatured extends Controller {
 						$rating = false;
 					}
 
+					$to_date = $this->model_catalog_product->getProductSpecialData($product_info['product_id']);
+					$to_date = $to_date['date_end'];
+
 					$data['products'][] = array(
 						'product_id'  => $product_info['product_id'],
 						'thumb'       => $image,
+						'thumb_swap'  => $thumb_swap,	
 						'name'        => $product_info['name'],
-						'description' => utf8_substr(strip_tags(html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('theme_' . $this->config->get('config_theme') . '_product_description_length')) . '..',
+						'description' => utf8_substr(strip_tags(html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get($this->config->get('config_theme') . '_product_description_length')) . '..',
 						'price'       => $price,
+						'percent'     => $data['percent'],
 						'special'     => $special,
+						'to_date'     => $to_date,
 						'tax'         => $tax,
+						'product_quantity'  => $product_info['quantity'],
+						'product_stock'  => $product_info['stock_status'],
+						'text_stock'  => $this->language->get('text_stock'),
 						'rating'      => $rating,
 						'href'        => $this->url->link('product/product', 'product_id=' . $product_info['product_id'])
 					);

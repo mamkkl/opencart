@@ -1,0 +1,484 @@
+<div class="ttproduct-main col-xs-8">
+      <div class="TTProduct-Tab TT-product-carousel products-list">
+	<div class="tthometab">
+	<div class="box-heading tthometab-title"><h3>{{ heading_title }}</h3></div>
+	<div id="TTPTab-{{ module }}" class="tab-box-heading">
+		<ul class="nav nav-tabs">
+		{% if latest_products%}
+		  <li><a href="#tab-latest-{{ module }}" data-toggle="tab">{{ tab_latest }}</a></li>
+		{% endif %}
+		{% if featured_products%}
+		  <li><a href="#tab-featured-{{ module }}" data-toggle="tab">{{ tab_featured }}</a></li>
+		{% endif %}
+		{% if bestseller_products%}
+		  <li><a href="#tab-bestseller-{{ module }}" data-toggle="tab">{{ tab_bestseller }}</a></li>
+		{% endif %}
+		{% if special_products%}
+		  <li><a href="#tab-special-{{ module }}" data-toggle="tab">{{ tab_special }}</a></li>
+		{% endif %}
+		</ul>
+	</div>
+	</div>
+<div class="tab-content">
+        
+        {% if latest_products%}
+		{% set cnt = 1 %}
+		{% set tcnt_l = latest_products|length %}
+        <div id="tab-latest-{{ module }}" class="tab-pane row">
+          <div id="owl1" class="products-carousel"> 
+		  {% for product in latest_products %}
+		  {% if tcnt_l >= 8 %}
+			{% if cnt  is divisible by(2) %}
+			{% else %}
+				<div class='single-column'>
+			{% endif %}
+			{% endif %}
+              <div class="product-layouts">
+                <div class="product-thumb transition">
+                  <div class="image">
+					{% if product.thumb_swap %} 
+						<a href="{{ product.href }}" class="{% if product.product_quantity==0 %} {{ "disabled" }} {% endif %}"> 
+							<img class="image_thumb" src="{{ product.thumb }}" title="{{ product.name }}" alt="{{ product.name }}" /> 
+							<img class="image_thumb_swap {{ effects }}" src="{{ product.thumb_swap }}" title="{{ product.name }}" alt="{{ product.name }}" /> </a> 
+					{% else %} 
+						<a href="{{ product.href }}"> 
+							<img class="img-responsive" src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" /> </a> 
+					{% endif %}
+				{% if product.product_quantity ==0 %}
+				<div class="btn-outofcart {% if product.product_quantity==0 %} {{ "disabled" }} {% endif %}">
+					{{ "<span class=\"out of stock\">"~product.product_stock }}</span>			
+				</div>
+				{% endif %}
+				
+                    {% if product.special %}
+                    <div class="sale-icon">Sale</div>
+                    <span class="percent">-{{ product.percent }}%</span> {% endif %}
+                    
+                    {% if product.to_date and product.to_date  !=  '0000-00-00' %}
+                    {% set date_time = product.to_date|date('Y-m-d') %}
+                    <div class="product-countdown">
+                      <div id="countdown2_{{ product.product_id }}" class="item-countdown" data-date="{{ date_time }}"></div>
+                    </div>
+                    {% endif %}
+
+		  		{% if product.rating %}
+				<div class="rating">
+				  {% for i in 1..5 %}
+				  {% if product.rating < i %}
+				  <span class="fa-stack"><i class="material-icons star_off">star_border</i></span>
+				  {% else %}
+				  <span class="fa-stack"><i class="material-icons star_on">star</i></span>
+				  {% endif %}
+				   {% endfor %}
+				</div>
+				{% endif %}
+
+			  <div class="button-group">
+					<button class="btn-cart {% if product.product_quantity<=0 %} {{ "disabled" }} {% endif %}" type="button" title="{% if product.product_quantity <=0 %}{{ product.product_stock }}{% else %}{{ button_cart }}{% endif %}" onclick="{% if product.product_quantity <=0 %}{% else %}cart.add('{{ product.product_id }}'){% endif %}"{% if product.product_quantity <=0 %}{{ "" }} 
+				{% endif %}>
+					 {% if product.product_quantity <=0 %}
+						{{ "<i class=\"material-icons\">shopping_cart</i><span class=\"out of stock\">"~product.product_stock }}
+						{% else %} 
+						{{ "<i class=\"material-icons\">shopping_cart</i> <span class=\"hidden-xs hidden-sm hidden-md\">"~button_cart }}
+					{% endif %}
+					</span>
+					<span class="loading"><i class="material-icons">cached</i></span>
+					</button>
+			  	<button class="btn-wishlist" title="{{ button_wishlist }}"  onclick="wishlist.add('{{ product.product_id }}');">
+				<i class="material-icons icon-wishlist">favorite_border</i>
+				<span title="{{ button_wishlist }}">{{ button_wishlist }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+				<button class="btn-compare" title="{{ button_compare }}"  onclick="compare.add('{{ product.product_id }}');">
+				<i class="material-icons icon-exchange">sync</i>
+				<span title="{{ button_compare }}">{{ button_compare }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+				<button class="btn-quickview" type="button" title="{{ button_quickview }}" onclick="tt_quickview.ajaxView('{{ product.href }}')">			
+				<i class="material-icons quick_view_icon">visibility</i>
+				<span title="{{ button_quickview }}">{{ button_quickview }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+			  </div>
+                  </div>
+                  <div class="thumb-description">
+                    <div class="caption">
+                      <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                  {% if product.price %}
+                  <div class="price"> {% if not product.special %}
+                    {{ product.price }}
+                    {% else %} <span class="price-new">{{ product.special }}</span> <span class="price-old">{{ product.price }}</span> {% endif %}
+                    {% if product.tax %} <span class="price-tax">{{ text_tax }} {{ product.tax }}</span> {% endif %} </div>
+                  {% endif %}
+						</div>
+                  </div>
+                </div>
+              </div>
+			    {% if tcnt_l >= 8 %}
+				{% if cnt is divisible by(2) %}
+					</div>
+				{% endif %}
+				{% endif %}
+				{% set cnt = cnt + 1 %}
+            {% endfor %}
+				{% set cnt = 1 %}
+				{% if tcnt_l >= 8 %} 
+				{% if tcnt_l  is divisible by(2) %}
+				{% else %}
+				</div>
+				{% endif %} 
+				{% endif %}
+		 </div>
+      </div>
+      {% endif %}
+
+	  {% if featured_products %}
+ {% set cnt = 1 %}
+ {% set tcnt_f = featured_products|length %}
+          <div id="tab-featured-{{ module }}" class="tab-pane row">
+            <div id="owl2" class="products-carousel"> 
+				{% for product in featured_products %}
+					{% if tcnt_f >= 8 %}
+					{% if cnt is divisible by(2) %}
+					{% else %}
+						<div class='single-column'>
+					{% endif %}
+					{% endif %}
+                <div class="product-layouts">
+                  <div class="product-thumb transition">
+                    <div class="image"> 
+						{% if product.thumb_swap %} 
+							<a href="{{ product.href }}" class="{% if product.product_quantity==0 %} {{ "disabled" }} {% endif %}"> 
+								<img class="image_thumb" src="{{ product.thumb }}" title="{{ product.name }}" alt="{{ product.name }}" /> 
+							    <img class="image_thumb_swap {{ effects }}" src="{{ product.thumb_swap }}" title="{{ product.name }}" alt="{{ product.name }}" /></a> 
+						{% else %} 
+							<a href="{{ product.href }}"> 
+								<img class="img-responsive" src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" /> </a> 
+						{% endif %}
+				{% if product.product_quantity ==0 %}
+				<div class="btn-outofcart {% if product.product_quantity==0 %} {{ "disabled" }} {% endif %}">
+					{{ "<span class=\"out of stock\">"~product.product_stock }}</span>			
+				</div>
+				{% endif %}
+                      {% if product.special %}
+                      <div class="sale-icon">Sale</div>
+                      <span class="percent">-{{ product.percent }}%</span> {% endif %}
+                      
+                      {% if product.to_date and product.to_date  !=  '0000-00-00' %}
+                      {% set date_time = product.to_date|date('Y-m-d') %}
+                      <div class="product-countdown">
+                        <div id="countdown1_{{ product.product_id }}" class="item-countdown" data-date="{{ date_time }}"></div>
+                      </div>
+                      {% endif %}
+ 			  
+		  		{% if product.rating %}
+				<div class="rating">
+				  {% for i in 1..5 %}
+				  {% if product.rating < i %}
+				  <span class="fa-stack"><i class="material-icons star_off">star_border</i></span>
+				  {% else %}
+				  <span class="fa-stack"><i class="material-icons star_on">star</i></span>
+				  {% endif %}
+				   {% endfor %}
+				</div>
+				{% endif %}
+
+			  <div class="button-group">
+					<button class="btn-cart {% if product.product_quantity<=0 %} {{ "disabled" }} {% endif %}" type="button" title="{% if product.product_quantity <=0 %}{{ product.product_stock }}{% else %}{{ button_cart }}{% endif %}" onclick="{% if product.product_quantity <=0 %}{% else %}cart.add('{{ product.product_id }}'){% endif %}"{% if product.product_quantity <=0 %}{{ "" }} 
+				{% endif %}>
+					 {% if product.product_quantity <=0 %}
+						{{ "<i class=\"material-icons\">shopping_cart</i><span class=\"out of stock\">"~product.product_stock }}
+						{% else %} 
+						{{ "<i class=\"material-icons\">shopping_cart</i> <span class=\"hidden-xs hidden-sm hidden-md\">"~button_cart }}
+					{% endif %}
+					</span>
+					<span class="loading"><i class="material-icons">cached</i></span>
+					</button>
+			  	<button class="btn-wishlist" title="{{ button_wishlist }}"  onclick="wishlist.add('{{ product.product_id }}');">
+				<i class="material-icons icon-wishlist">favorite_border</i>
+				<span title="{{ button_wishlist }}">{{ button_wishlist }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+				<button class="btn-compare" title="{{ button_compare }}"  onclick="compare.add('{{ product.product_id }}');">
+				<i class="material-icons icon-exchange">sync</i>
+				<span title="{{ button_compare }}">{{ button_compare }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+				<button class="btn-quickview" type="button" title="{{ button_quickview }}" onclick="tt_quickview.ajaxView('{{ product.href }}')">			
+				<i class="material-icons quick_view_icon">visibility</i>
+				<span title="{{ button_quickview }}">{{ button_quickview }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+			  </div>
+                    </div>
+                    <div class="thumb-description">
+                      <div class="caption">
+                        <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                  {% if product.price %}
+                  <div class="price"> {% if not product.special %}
+                    {{ product.price }}
+                    {% else %} <span class="price-new">{{ product.special }}</span> <span class="price-old">{{ product.price }}</span> {% endif %}
+                    {% if product.tax %} <span class="price-tax">{{ text_tax }} {{ product.tax }}</span> {% endif %} </div>
+                  {% endif %}
+					</div>
+                    </div>
+                  </div>
+                </div>
+				{% if tcnt_f >= 8 %}
+				{% if cnt is divisible by(2) %}
+					</div>
+				{% endif %}
+				{% endif %}
+				{% set cnt = cnt + 1 %}
+              {% endfor %} {# foreach END #}
+			  	{% set cnt = 1 %}
+				{% if tcnt_f >= 8 %}
+				{% if tcnt_f is divisible by(2) %}
+				{% else %}
+				</div>
+				{% endif %} 
+				{% endif %}
+		 </div>
+        </div>
+{% endif %}
+      
+      
+      {% if bestseller_products%}
+	  {% set cnt = 1 %}
+	  {% set tcnt_b = bestseller_products|length %}
+      <div id="tab-bestseller-{{ module }}" class="tab-pane row">
+        <div id="owl3" class="products-carousel"> 
+		{% for product in bestseller_products %}
+			{% if tcnt_b >= 8 %}
+			{% if cnt  is divisible by(2) %}
+			{% else %}
+				<div class='single-column'>
+			{% endif %}
+			{% endif %}
+            <div class="product-layouts">
+              <div class="product-thumb transition">
+                <div class="image"> 
+					{% if product.thumb_swap %} 
+						<a href="{{ product.href }}" class="{% if product.product_quantity==0 %} {{ "disabled" }} {% endif %}"> 
+							<img class="image_thumb" src="{{ product.thumb }}" title="{{ product.name }}" alt="{{ product.name }}" /> 
+							<img class="image_thumb_swap {{ effects }}" src="{{ product.thumb_swap }}" title="{{ product.name }}" alt="{{ product.name }}" /></a> 
+					{% else %} 
+						<a href="{{ product.href }}"> 
+							<img class="img-responsive" src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" /> </a> 
+					{% endif %}
+				{% if product.product_quantity ==0 %}
+				<div class="btn-outofcart {% if product.product_quantity==0 %} {{ "disabled" }} {% endif %}">
+					{{ "<span class=\"out of stock\">"~product.product_stock }}</span>			
+				</div>
+				{% endif %}
+				
+                  {% if product.special %}
+                  <div class="sale-icon">Sale</div>
+                  <span class="percent">-{{ product.percent }}%</span> {% endif %}
+                  
+                  {% if product.to_date and product.to_date  !=  '0000-00-00' %}
+                  {% set date_time = product.to_date|date('Y-m-d') %}
+                  <div class="product-countdown">
+                    <div id="countdown3_{{ product.product_id }}" class="item-countdown" data-date="{{ date_time }}"></div>
+                  </div>
+                  {% endif %}
+                  
+		  		{% if product.rating %}
+				<div class="rating">
+				  {% for i in 1..5 %}
+				  {% if product.rating < i %}
+				  <span class="fa-stack"><i class="material-icons star_off">star_border</i></span>
+				  {% else %}
+				  <span class="fa-stack"><i class="material-icons star_on">star</i></span>
+				  {% endif %}
+				   {% endfor %}
+				</div>
+				{% endif %}
+
+			  <div class="button-group">
+					<button class="btn-cart {% if product.product_quantity<=0 %} {{ "disabled" }} {% endif %}" type="button" title="{% if product.product_quantity <=0 %}{{ product.product_stock }}{% else %}{{ button_cart }}{% endif %}" onclick="{% if product.product_quantity <=0 %}{% else %}cart.add('{{ product.product_id }}'){% endif %}"{% if product.product_quantity <=0 %}{{ "" }} 
+				{% endif %}>
+					 {% if product.product_quantity <=0 %}
+						{{ "<i class=\"material-icons\">shopping_cart</i><span class=\"out of stock\">"~product.product_stock }}
+						{% else %} 
+						{{ "<i class=\"material-icons\">shopping_cart</i> <span class=\"hidden-xs hidden-sm hidden-md\">"~button_cart }}
+					{% endif %}
+					</span>
+					<span class="loading"><i class="material-icons">cached</i></span>
+					</button>
+			  	<button class="btn-wishlist" title="{{ button_wishlist }}"  onclick="wishlist.add('{{ product.product_id }}');">
+				<i class="material-icons icon-wishlist">favorite_border</i>
+				<span title="{{ button_wishlist }}">{{ button_wishlist }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+				<button class="btn-compare" title="{{ button_compare }}"  onclick="compare.add('{{ product.product_id }}');">
+				<i class="material-icons icon-exchange">sync</i>
+				<span title="{{ button_compare }}">{{ button_compare }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+				<button class="btn-quickview" type="button" title="{{ button_quickview }}" onclick="tt_quickview.ajaxView('{{ product.href }}')">			
+				<i class="material-icons quick_view_icon">visibility</i>
+				<span title="{{ button_quickview }}">{{ button_quickview }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+			  </div>
+                </div>
+                <div class="thumb-description">
+                  <div class="caption">
+                    <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                  {% if product.price %}
+                  <div class="price"> {% if not product.special %}
+                    {{ product.price }}
+                    {% else %} <span class="price-new">{{ product.special }}</span> <span class="price-old">{{ product.price }}</span> {% endif %}
+                    {% if product.tax %} <span class="price-tax">{{ text_tax }} {{ product.tax }}</span> {% endif %} </div>
+                  {% endif %}
+						</div>
+                </div>
+              </div>
+            </div>
+			{% if tcnt_b >= 8 %}
+			{% if cnt  is divisible by(2) %}
+				</div>
+			{% endif %}
+			{% endif %}
+			{% set cnt = cnt + 1 %}
+          {% endfor %}  {# foreach END #}
+		  	{% set cnt = 1 %}
+		    {% if tcnt_b >= 8 %} 
+		    {% if tcnt_b is divisible by(2) %}
+		    {% else %}
+		      </div>
+		    {% endif %} 
+		    {% endif %}
+		</div>
+    </div>
+    {% endif %}
+    
+    
+    {% if special_products%}
+	{% set cnt = 1 %}
+	{% set tcnt_s = special_products|length %}
+    <div id="tab-special-{{ module }}" class="tab-pane row">
+      <div id="owl4" class="products-carousel"> 
+	  {% for product in special_products %}	
+	  	{% if tcnt_s >= 8 %}
+		{% if cnt  is divisible by(2) %}
+		{% else %}
+			<div class='single-column'>
+		{% endif %}
+		{% endif %}
+          <div class="product-layouts">
+            <div class="product-thumb transition">
+              <div class="image">
+			  		{% if product.thumb_swap %} 
+						<a href="{{ product.href }}" class="{% if product.product_quantity==0 %} {{ "disabled" }} {% endif %}"> 
+							<img class="image_thumb" src="{{ product.thumb }}" title="{{ product.name }}" alt="{{ product.name }}" /> 
+							<img class="image_thumb_swap {{ effects }}" src="{{ product.thumb_swap }}" title="{{ product.name }}" alt="{{ product.name }}" /> </a> 
+					{% else %} 
+						<a href="{{ product.href }}"> 
+							<img class="img-responsive" src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" /> </a> 
+					{% endif %}
+				{% if product.product_quantity ==0 %}
+				<div class="btn-outofcart {% if product.product_quantity==0 %} {{ "disabled" }} {% endif %}">
+					{{ "<span class=\"out of stock\">"~product.product_stock }}</span>			
+				</div>
+				{% endif %}
+                {% if product.special %}
+                <div class="sale-icon">Sale</div>
+                <span class="percent">-{{ product.percent }}%</span> {% endif %}
+                
+                {% if product.to_date and product.to_date  !=  '0000-00-00' %}
+                {% set date_time = product.to_date|date('Y-m-d') %}
+                <div class="product-countdown">
+                  <div id="countdown4_{{ product.product_id }}" class="item-countdown" data-date="{{ date_time }}"></div>
+                </div>
+                {% endif %}
+                
+		  		{% if product.rating %}
+				<div class="rating">
+				  {% for i in 1..5 %}
+				  {% if product.rating < i %}
+				  <span class="fa-stack"><i class="material-icons star_off">star_border</i></span>
+				  {% else %}
+				  <span class="fa-stack"><i class="material-icons star_on">star</i></span>
+				  {% endif %}
+				   {% endfor %}
+				</div>
+				{% endif %}
+
+			  <div class="button-group">
+					<button class="btn-cart {% if product.product_quantity<=0 %} {{ "disabled" }} {% endif %}" type="button" title="{% if product.product_quantity <=0 %}{{ product.product_stock }}{% else %}{{ button_cart }}{% endif %}" onclick="{% if product.product_quantity <=0 %}{% else %}cart.add('{{ product.product_id }}'){% endif %}"{% if product.product_quantity <=0 %}{{ "" }} 
+				{% endif %}>
+					 {% if product.product_quantity <=0 %}
+						{{ "<i class=\"material-icons\">shopping_cart</i><span class=\"out of stock\">"~product.product_stock }}
+						{% else %} 
+						{{ "<i class=\"material-icons\">shopping_cart</i> <span class=\"hidden-xs hidden-sm hidden-md\">"~button_cart }}
+					{% endif %}
+					</span>
+					<span class="loading"><i class="material-icons">cached</i></span>
+					</button>
+			  	<button class="btn-wishlist" title="{{ button_wishlist }}"  onclick="wishlist.add('{{ product.product_id }}');">
+				<i class="material-icons icon-wishlist">favorite_border</i>
+				<span title="{{ button_wishlist }}">{{ button_wishlist }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+				<button class="btn-compare" title="{{ button_compare }}"  onclick="compare.add('{{ product.product_id }}');">
+				<i class="material-icons icon-exchange">sync</i>
+				<span title="{{ button_compare }}">{{ button_compare }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+				<button class="btn-quickview" type="button" title="{{ button_quickview }}" onclick="tt_quickview.ajaxView('{{ product.href }}')">			
+				<i class="material-icons quick_view_icon">visibility</i>
+				<span title="{{ button_quickview }}">{{ button_quickview }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+			  </div>
+              </div>
+              <div class="thumb-description">
+                <div class="caption">
+                  <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                  {% if product.price %}
+                  <div class="price"> {% if not product.special %}
+                    {{ product.price }}
+                    {% else %} <span class="price-new">{{ product.special }}</span> <span class="price-old">{{ product.price }}</span> {% endif %}
+                    {% if product.tax %} <span class="price-tax">{{ text_tax }} {{ product.tax }}</span> {% endif %} </div>
+                  {% endif %}
+					 </div>
+              </div>
+            </div>
+          </div>
+		    {% if tcnt_s >= 8 %}
+			{% if cnt  is divisible by(2) %}
+				</div>
+			{% endif %}
+			{% endif %}
+			{% set cnt = cnt + 1 %}
+        {% endfor %}  {# foreach END #}
+			{% set cnt = 1 %}
+			{% if tcnt_s >= 10 %} 
+			{% if tcnt_s is divisible by(2) %}
+			{% else %}
+			   </div>
+			{% endif %} 
+			{% endif %}
+ </div>
+  </div>
+  {% endif %}
+  <script>
+			  jQuery(document).ready(function($){
+			  $(".item-countdown").each(function(){
+			  var date = $(this).data('date');
+			  $(this).lofCountDown({
+				  TargetDate:date,
+				  DisplayFormat:"<div>%%D%% <span>{{ text_days}}</span></div><div>%%H%% <span>{{ text_hours }}</span></div><div>%%M%% <span>{{ text_minutes }}</span></div><div>%%S%% <span>{{ text_seconds }}</span></div>"
+				});
+			  });
+			  });   
+		</script>
+</div>
+</div>
+</div>
+<script>
+$('.TTProduct-Tab > .tthometab > .tab-box-heading > ul > li:first-child').addClass('active');
+$('.TTProduct-Tab > .tab-content > .tab-pane:first-child').addClass('active');
+</script>

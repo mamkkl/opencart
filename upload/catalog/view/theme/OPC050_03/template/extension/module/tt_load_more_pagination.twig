@@ -1,0 +1,143 @@
+{% for product in products %}
+{% if display == "grid" and cols == 2 %}
+<div class="product-layout product-{{ display }} col-lg-4 col-md-4 col-sm-4 col-xs-6">
+{% elseif display == "grid" and cols == 1 %}
+<div class="product-layout product-{{ display }} col-lg-3 col-md-3 col-sm-3 col-xs-6">
+{% elseif display == "grid" and cols != 1 and cols != 2 %}
+<div class="product-layout product-{{ display }} col-lg-3 col-md-3 col-sm-6 col-xs-6">
+{% endif %}
+{% if display == "list" %}
+	<div class="product-layout product-{{ display }} col-xs-12">
+{% endif %}
+{% if display == "sort" %}
+	<div class="product-layout product-{{ display }} col-xs-12">
+{% endif %}
+  <div class="product-thumb row">
+            <div class="image">
+			{% if product.thumb_swap %}
+					<a href="{{ product.href }}">
+						<img class="image_thumb" src="{{ product.thumb }}" title="{{ product.name }}" alt="{{ product.name }}" />
+						<img class="image_thumb_swap {{ effects }}" src="{{ product.thumb_swap }}" title="{{ product.name }}" alt="{{ product.name }}" />
+					</a>
+				{% else %}
+					<a href="{{ product.href }}">
+						<img class="img-responsive" src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" />
+					</a>
+			{% endif %}
+				{% if product.product_quantity ==0 %}
+				<div class="btn-outofcart {% if product.product_quantity==0 %} {{ "disabled" }} {% endif %}">
+					{{ "<span class=\"out of stock\">"~product.product_stock }}</span>			
+				</div>
+				{% endif %}
+				
+			{% if product.special %}
+			  <div class="sale-icon">Sale</div>
+			  <span class="percent">-{{ product.percent }}%</span>
+			{% endif %}
+			  	{% if product.rating %}
+					<div class="rating">
+				{% else %}
+					<div class="rating no-rating">
+				{% endif %}
+				{% for i in 1..5 %}
+				{% if product.rating < i %}
+				<span class="fa-stack"><i class="material-icons star_off">star_border</i></span>
+				{% else %}
+				<span class="fa-stack"><i class="material-icons star_on">star</i></span>
+				{% endif %}
+				{% endfor %}
+				</div>
+			<div class="ttproducthover">
+			  <div class="button-group">
+			  <div class="tt-button-container">
+					<button class="btn-cart {% if product.product_quantity<=0 %} {{ "disabled" }} {% endif %}" type="button" title="{% if product.product_quantity <=0 %}{{ product.product_stock }}{% else %}{{ button_cart }}{% endif %}" onclick="{% if product.product_quantity <=0 %}{% else %}cart.add('{{ product.product_id }}'){% endif %}"{% if product.product_quantity <=0 %}{{ "" }} 
+				{% endif %}>
+					 {% if product.product_quantity <=0 %}
+						{{ "<i class=\"material-icons\">shopping_cart</i><span class=\"out of stock\">"~product.product_stock }}
+						{% else %} 
+						{{ "<i class=\"material-icons\">shopping_cart</i> <span class=\"hidden-xs hidden-sm hidden-md\">"~button_cart }}
+					{% endif %}
+					</span>
+					</button>
+				</div>
+			  	<button class="btn-wishlist" title="{{ button_wishlist }}"  onclick="wishlist.add('{{ product.product_id }}');">
+				<i class="material-icons icon-wishlist">favorite_border</i>
+				<span title="{{ button_wishlist }}">{{ button_wishlist }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+				<button class="btn-compare" title="{{ button_compare }}"  onclick="compare.add('{{ product.product_id }}');">
+				<i class="material-icons icon-exchange">sync</i>
+				<span title="{{ button_compare }}">{{ button_compare }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+				<button class="btn-quickview" type="button" title="{{ button_quickview }}" onclick="tt_quickview.ajaxView('{{ product.href }}')">			
+				<i class="material-icons quick_view_icon">visibility</i>
+				<span title="{{ button_quickview }}">{{ button_quickview }}</span>
+				<span class="loading"><i class="material-icons">cached</i></span>
+				</button>
+			  </div>
+			  </div>
+		  </div>
+            <div class="thumb-description">
+              <div class="caption">
+			  <div class="product-description">
+				<h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+				                <p class="description">{{ product.description }}</p>
+					</div>
+					<div class="product-price-and-shipping">
+                  {% if product.price %}
+                  <div class="price"> {% if not product.special %}
+                    {{ product.price }}
+                    {% else %} <span class="price-new">{{ product.special }}</span> <span class="price-old">{{ product.price }}</span> {% endif %}
+                    {% if product.tax %} <span class="price-tax">{{ text_tax }} {{ product.tax }}</span> {% endif %} </div>
+                  {% endif %}
+				  </div>
+			  </div>
+		  </div>   
+        </div>
+</div>
+{% endfor %}
+<script>
+$('.product-sort .product-thumb .image').attr('class', 'image col-xs-3 col-sm-3 col-md-2');
+$('.product-sort .product-thumb .thumb-description').attr('class', 'thumb-description col-xs-9 col-sm-9 col-md-10');
+$('.product-list .product-thumb .image').attr('class', 'image col-xs-3 col-sm-3 col-md-2');
+$('.product-list .product-thumb .thumb-description').attr('class', 'thumb-description col-xs-9 col-sm-9 col-md-10');
+$('.product-grid .product-thumb .image').attr('class', 'image col-xs-12');
+$('.product-grid .product-thumb .thumb-description').attr('class', 'thumb-description col-xs-12');
+
+$(".product-list .product-thumb > .image > .ttproducthover").each(function() {
+	$(this).appendTo($(this).parent().parent().find(".thumb-description .caption"));
+});
+
+$(".product-sort .product-thumb > .image > .ttproducthover").each(function() {
+	$(this).appendTo($(this).parent().parent().find(".thumb-description .caption"));
+});
+
+$(".product-grid .product-thumb > .thumb-description > .caption > .ttproducthover").each(function() {
+	$(this).appendTo($(this).parent().parent().find(".image"));
+});
+
+$(".product-list .product-thumb > .thumb-description > .price").each(function() {
+	$(this).appendTo($(this).parent().parent().find(".caption"));
+});
+
+$(".product-sort .product-thumb > .thumb-description > .price").each(function() {
+	$(this).appendTo($(this).parent().parent().find(".caption"));
+});
+
+$(".product-grid .product-thumb > .thumb-description > .caption > .price").each(function() {
+	$(this).appendTo($(this).parent().parent().parent().find(".thumb-description"));
+});
+
+$(window).on('load',function() {
+    var $grid = $('.grid-masonary > .row').masonry({
+	  itemSelector: '.product-layout.product-grid',
+	  percentPosition: true,
+	  columnWidth: '.grid-sizer'
+	});
+	// layout Masonry after each image loads
+	  $grid.imagesLoaded().progress( function() {
+	  $grid.masonry();
+	});  
+});
+</script>

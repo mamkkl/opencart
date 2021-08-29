@@ -2,6 +2,8 @@
 class ControllerProductCategory extends Controller {
 	public function index() {
 		$this->load->language('product/category');
+		
+		$this->document->addScript('catalog/view/javascript/TemplateTrip/tt-load-more.js');
 
 		$this->load->model('catalog/category');
 
@@ -28,7 +30,7 @@ class ControllerProductCategory extends Controller {
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -86,6 +88,13 @@ class ControllerProductCategory extends Controller {
 		} else {
 			$category_id = 0;
 		}
+		
+		// ttthemesettings
+		$this->load->model('setting/setting');
+		$data['effects']=$this->model_setting_setting->getSettingValue('module_tt_themesettings_effects');
+		$data['page_filter']=$this->model_setting_setting->getSettingValue('module_tt_themesettings_page_filter');
+		$data['product_column']=$this->model_setting_setting->getSettingValue('module_tt_themesettings_product_column');
+		$data['grid_view']=$this->model_setting_setting->getSettingValue('module_tt_themesettings_grid_view');
 
 		$category_info = $this->model_catalog_category->getCategory($category_id);
 
@@ -107,9 +116,9 @@ class ControllerProductCategory extends Controller {
 			if ($category_info['image']) {
 				$data['thumb'] = $this->model_tool_image->resize($category_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_category_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_category_height'));
 			} else {
-				$data['thumb'] = '';
+				$data['thumb'] = $this->model_tool_image->resize('placeholder.png', 200, 280);
 			}
-
+			
 			$data['description'] = html_entity_decode($category_info['description'], ENT_QUOTES, 'UTF-8');
 			$data['compare'] = $this->url->link('product/compare');
 
@@ -143,6 +152,7 @@ class ControllerProductCategory extends Controller {
 
 				$data['categories'][] = array(
 					'name' => $result['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
+					'img' => $this->model_tool_image->resize($result['image'], 100, 120),
 					'href' => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '_' . $result['category_id'] . $url)
 				);
 			}
@@ -159,6 +169,15 @@ class ControllerProductCategory extends Controller {
 			);
 
 			$product_total = $this->model_catalog_product->getTotalProducts($filter_data);
+			
+			/** Load Format Pagination **/
+			$data['ttl'] = $product_total;
+			$data['config_catalog_limit'] = $this->config->get('theme_' . $this->config->get('config_theme') . '_product_limit');
+			$data['category_data'] = $category_id;
+			$data['path'] = $this->request->get['path'];
+			$data['url_category'] = $this->url->link('extension/module/tt_load_more_pagination');
+			$data['page'] = $page;
+			$data['filter'] = $filter;
 
 			$results = $this->model_catalog_product->getProducts($filter_data);
 
@@ -168,6 +187,16 @@ class ControllerProductCategory extends Controller {
 				} else {
 					$image = $this->model_tool_image->resize('placeholder.png', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height'));
 				}
+				
+				
+			$images = $this->model_catalog_product->getProductImages($result['product_id']);
+
+            if(isset($images[0]['image']) && !empty($images[0]['image'])){
+                  $images = $images[0]['image'];
+				  $thumb_swap = $this->model_tool_image->resize($images, $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height'));
+               } else {
+					$thumb_swap="";
+			   }
 
 				if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
 					$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
@@ -175,16 +204,20 @@ class ControllerProductCategory extends Controller {
 					$price = false;
 				}
 
-				if (!is_null($result['special']) && (float)$result['special'] >= 0) {
+				if ((float)$result['special']) {
 					$special = $this->currency->format($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
-					$tax_price = (float)$result['special'];
 				} else {
 					$special = false;
-					$tax_price = (float)$result['price'];
 				}
-	
+				
+				if ((float)$result['special']) {
+					$data['percent'] = round(100 - ($result['special']*100/$result['price']));
+				} else {
+					$data['percent'] = false;
+				}
+
 				if ($this->config->get('config_tax')) {
-					$tax = $this->currency->format($tax_price, $this->session->data['currency']);
+					$tax = $this->currency->format((float)$result['special'] ? $result['special'] : $result['price'], $this->session->data['currency']);
 				} else {
 					$tax = false;
 				}
@@ -195,16 +228,25 @@ class ControllerProductCategory extends Controller {
 					$rating = false;
 				}
 
+				$to_date = $this->model_catalog_product->getProductSpecialData($result['product_id']);
+				$to_date = $to_date['date_end'];
+
 				$data['products'][] = array(
 					'product_id'  => $result['product_id'],
 					'thumb'       => $image,
+					'thumb_swap'  => $thumb_swap,
 					'name'        => $result['name'],
 					'description' => utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('theme_' . $this->config->get('config_theme') . '_product_description_length')) . '..',
 					'price'       => $price,
+					'percent'     => $data['percent'],
+					'to_date'     => $to_date,
 					'special'     => $special,
 					'tax'         => $tax,
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $result['rating'],
+					'product_quantity'  => $result['quantity'],
+					'product_stock'  => $result['stock_status'],
+					'text_stock'  => $this->language->get('text_stock'),
 					'href'        => $this->url->link('product/product', 'path=' . $this->request->get['path'] . '&product_id=' . $result['product_id'] . $url)
 				);
 			}
@@ -360,6 +402,11 @@ class ControllerProductCategory extends Controller {
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
+			
+			/** Load Format Pagination **/
+			$this->load->language('extension/module/tt_load_more_pagination');
+			$data['load_more'] = $this->language->get('load_more');
+			$data['show_product'] = $this->language->get('show_product');
 
 			$this->response->setOutput($this->load->view('product/category', $data));
 		} else {

@@ -67,7 +67,7 @@ class ControllerProductCompare extends Controller {
 					$price = false;
 				}
 
-				if (!is_null($product_info['special']) && (float)$product_info['special'] >= 0) {
+				if ((float)$product_info['special']) {
 					$special = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
 				} else {
 					$special = false;
@@ -103,6 +103,9 @@ class ControllerProductCompare extends Controller {
 					'availability' => $availability,
 					'minimum'      => $product_info['minimum'] > 0 ? $product_info['minimum'] : 1,
 					'rating'       => (int)$product_info['rating'],
+					'product_quantity'  => $product_info['quantity'],
+					'product_stock'  => $product_info['stock_status'],
+					'text_stock'  => $this->language->get('text_stock'),
 					'reviews'      => sprintf($this->language->get('text_reviews'), (int)$product_info['reviews']),
 					'weight'       => $this->weight->format($product_info['weight'], $product_info['weight_class_id']),
 					'length'       => $this->length->format($product_info['length'], $product_info['length_class_id']),
